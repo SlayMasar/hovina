@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const products = [
@@ -9,19 +9,29 @@ const products = [
     description: "Enterprise WhatsApp bot framework with advanced NLP and dynamic routing capabilities.",
     status: "Active",
     tags: ["WhatsApp", "NLP", "Node.js"],
+    link: null,
   },
   {
     name: "Aura Analytics",
     description: "Predictive machine learning platform for African retail markets.",
     status: "Beta",
     tags: ["Python", "TensorFlow", "React"],
+    link: null,
   },
   {
     name: "Nexus Core",
     description: "Microservices architecture boilerplate for rapid deployment of financial tech.",
     status: "Active",
     tags: ["Go", "Kubernetes", "PostgreSQL"],
-  }
+    link: null,
+  },
+  {
+    name: "Mejesi",
+    description: "An intelligent WhatsApp bot bringing everyday services — from business info to automated responses — right into your chat. Try it now.",
+    status: "Live",
+    tags: ["WhatsApp", "Bot", "AI"],
+    link: "https://wa.me/263776757578",
+  },
 ];
 
 export function ProductsSection() {
@@ -38,7 +48,7 @@ export function ProductsSection() {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {products.map((product, index) => (
             <motion.div
               key={index}
@@ -50,18 +60,22 @@ export function ProductsSection() {
             >
               <div className="flex justify-between items-start mb-6">
                 <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center">
-                  <div className="w-4 h-4 rounded-sm bg-secondary/80 group-hover:scale-125 transition-transform" />
+                  {product.link ? (
+                    <MessageCircle className="w-5 h-5 text-green-400 group-hover:scale-125 transition-transform" />
+                  ) : (
+                    <div className="w-4 h-4 rounded-sm bg-secondary/80 group-hover:scale-125 transition-transform" />
+                  )}
                 </div>
-                <span className="text-xs font-mono px-2 py-1 rounded bg-white/5 text-muted-foreground border border-white/10">
+                <span className={`text-xs font-mono px-2 py-1 rounded border ${product.status === "Live" ? "bg-green-500/10 text-green-400 border-green-500/20" : "bg-white/5 text-muted-foreground border-white/10"}`}>
                   {product.status}
                 </span>
               </div>
-              
+
               <h3 className="text-2xl font-bold mb-3 font-display">{product.name}</h3>
               <p className="text-muted-foreground flex-grow mb-8">
                 {product.description}
               </p>
-              
+
               <div className="flex flex-wrap gap-2 mt-auto">
                 {product.tags.map((tag, i) => (
                   <span key={i} className="text-xs font-medium px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
@@ -69,6 +83,19 @@ export function ProductsSection() {
                   </span>
                 ))}
               </div>
+
+              {product.link && (
+                <a
+                  href={product.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 flex items-center gap-2 text-sm font-semibold text-green-400 hover:text-green-300 transition-colors"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  Chat on WhatsApp
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              )}
             </motion.div>
           ))}
         </div>
