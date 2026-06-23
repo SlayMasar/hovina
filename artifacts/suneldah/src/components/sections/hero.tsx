@@ -56,7 +56,7 @@ export function HeroSection() {
                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </a>
-            <a href="#contact">
+            <a href="mailto:dev@hovina.co.zw">
               <Button size="lg" variant="outline" className="rounded-full h-14 px-8 text-lg font-bold transition-all">
                 Get in Touch
               </Button>
