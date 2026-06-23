@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const stats = [
-  { value: "50+", label: "Systems Deployed" },
+  { value: "10+", label: "Systems Automated" },
   { value: "< 50ms", label: "Avg Latency" },
   { value: "99.9%", label: "Uptime" },
   { value: "10x", label: "Efficiency Gain" },
