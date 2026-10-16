@@ -2,6 +2,10 @@
   "name": "hovina",
   "compatibility_date": "2026-09-18",
   "assets": {
-    "directory": "artifacts/suneldah/dist/public"
+    "directory": "artifacts/suneldah/dist/public",
+    // The site is a single-page app: /privacy, /terms and /data-deletion are
+    // routes in the app, not files, so unknown paths load index.html and the
+    // app shows the page. Real files (like /proposals/zp-calculator/) still win.
+    "not_found_handling": "single-page-application"
   }
 }
