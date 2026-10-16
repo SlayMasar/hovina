@@ -1,21 +1,17 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md mx-4">
-        <CardContent className="pt-6">
-          <div className="flex mb-4 gap-2">
-            <AlertCircle className="h-8 w-8 text-red-500" />
-            <h1 className="text-2xl font-bold text-gray-900">404 Page Not Found</h1>
-          </div>
-
-          <p className="mt-4 text-sm text-gray-600">
-            Did you forget to add the page to the router?
-          </p>
-        </CardContent>
-      </Card>
+    <div className="b b-page b-legal">
+      <Navbar />
+      <main className="container mx-auto px-4 md:px-6 max-w-3xl pt-32 pb-24">
+        <p className="b-m" style={{ margin: "0 0 18px" }}>Error 404</p>
+        <h1 className="b-d" style={{ fontSize: "clamp(3.4rem,12vw,9rem)" }}>Page not found.</h1>
+        <p style={{ fontSize: "1.25rem", margin: "28px 0 32px" }}>That page doesn't exist, or it has moved.</p>
+        <a className="b-pill lime" href="/">Back to home</a>
+      </main>
+      <Footer />
     </div>
   );
 }

@@ -1,4 +1,54 @@
+import { useState, type FormEvent } from "react";
 import "@/big-type.css";
+
+const CONTACT_URL = "https://mejesi.com/api/hovina-contact";
+
+function ContactForm() {
+  const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [error, setError] = useState("");
+
+  async function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries());
+    setState("sending");
+    try {
+      const res = await fetch(CONTACT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(out.error || "Something went wrong.");
+      form.reset();
+      setState("sent");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setState("error");
+    }
+  }
+
+  if (state === "sent") {
+    return (
+      <div className="b-form b-form-done" role="status">
+        <p className="b-d" style={{ fontSize: "clamp(2rem,4vw,3.2rem)" }}>Message sent.</p>
+        <p>Thank you. We will get back to you within 24 hours.</p>
+      </div>
+    );
+  }
+
+  return (
+    <form className="b-form" onSubmit={submit}>
+      <label>Your name<input name="name" required maxLength={120} autoComplete="name" /></label>
+      <label>Email<input name="email" type="email" required maxLength={120} autoComplete="email" /></label>
+      <label className="wide">WhatsApp number (optional)<input name="whatsapp" maxLength={40} autoComplete="tel" placeholder="+263 77 000 0000" /></label>
+      <label className="wide">What do you want to build?<textarea name="message" required rows={5} maxLength={4000} /></label>
+      <div style={{ position: "absolute", left: "-9999px" }} aria-hidden="true"><input name="website" tabIndex={-1} autoComplete="off" /></div>
+      {state === "error" && <p className="b-form-err wide" role="alert">{error} You can also email dev@hovina.co.zw.</p>}
+      <button className="b-pill lime wide" type="submit" disabled={state === "sending"}>{state === "sending" ? "Sending…" : "Send message"}</button>
+    </form>
+  );
+}
 
 export default function Home() {
   return (
@@ -97,7 +147,8 @@ export default function Home() {
         <div className="b-wrap">
           <p className="b-m" style={{ margin: '0', color: 'var(--lime)' }}>Got something to build?</p>
           <a className="b-mail" href="mailto:dev@hovina.co.zw">dev@hovina.co.zw</a>
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+          <ContactForm />
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', marginTop: '32px' }}>
             <a className="b-pill lime" href="https://wa.me/263776757578">WhatsApp +263 77 675 7578</a>
             <span style={{ color: '#a6a69e' }}>We will get back to you within 24 hours.</span>
           </div>

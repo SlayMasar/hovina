@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/footer";
 
 export default function TermsOfService() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="b b-page b-legal">
       <Navbar />
       <main className="container mx-auto px-4 md:px-6 max-w-3xl pt-32 pb-24">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">Terms of Service</h1>

@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion } from "framer-motion";
 import { Loader2, CheckCircle2, Trash2 } from "lucide-react";
-import { useSubmitContact } from "@workspace/api-client-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Link } from "wouter";
@@ -32,7 +31,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function DataDeletion() {
   const [submitted, setSubmitted] = useState(false);
-  const submitContact = useSubmitContact();
+  const [pending, setPending] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -44,31 +43,31 @@ export default function DataDeletion() {
     },
   });
 
-  const onSubmit = (values: FormValues) => {
-    submitContact.mutate(
-      {
-        data: {
+  const onSubmit = async (values: FormValues) => {
+    setPending(true);
+    try {
+      const res = await fetch("https://mejesi.com/api/hovina-contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           name: values.name,
           email: values.email,
-          subject: `[Data Deletion Request] ${values.platform}`,
-          message: `Data Deletion Request\n\nPlatform/App: ${values.platform}\n\nDetails:\n${values.details}\n\nPlease delete all personal data associated with this email address from your systems.`,
-        },
-      },
-      {
-        onSuccess: () => {
-          setSubmitted(true);
-        },
-        onError: () => {
-          form.setError("root", {
-            message: "Something went wrong. Please try again or reach out directly.",
-          });
-        },
-      }
-    );
+          message: `[Data Deletion Request] ${values.platform}\n\nData Deletion Request\n\nPlatform/App: ${values.platform}\n\nDetails:\n${values.details}\n\nPlease delete all personal data associated with this email address from your systems.`,
+        }),
+      });
+      if (!res.ok) throw new Error("failed");
+      setSubmitted(true);
+    } catch {
+      form.setError("root", {
+        message: "Something went wrong. Please try again or reach out directly.",
+      });
+    } finally {
+      setPending(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="b b-page b-legal">
       <Navbar />
       <main className="container mx-auto px-4 md:px-6 max-w-2xl pt-32 pb-24">
 
@@ -187,9 +186,9 @@ export default function DataDeletion() {
                   type="submit"
                   variant="destructive"
                   className="w-full h-14 text-lg font-bold gap-2 transition-all"
-                  disabled={submitContact.isPending}
+                  disabled={pending}
                 >
-                  {submitContact.isPending ? (
+                  {pending ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
