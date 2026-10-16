@@ -39,6 +39,25 @@ input:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(3
 details.info{margin:8px 0 0;font-size:13px}
 details.info summary{cursor:pointer;color:var(--primary-d);font-weight:600}
 details.info p{color:var(--muted);margin:6px 0 0}
+.szs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 8px}
+@media (min-width:560px){.szs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.sz{position:relative;display:block;cursor:pointer;margin:0}
+.sz input{position:absolute;opacity:0;width:1px;height:1px;left:50%;top:50%;pointer-events:none}
+.szbox{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;height:100%;padding:12px 8px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--muted);transition:border-color .15s,background .15s}
+.szbox b{color:var(--text);font-size:14px;margin-top:4px}
+.szbox em{font-style:normal;font-size:12px}
+.szbox small{font-size:11.5px}
+.sz input:checked+.szbox{border-color:var(--primary);background:var(--soft);color:var(--primary-d)}
+.sz input:focus-visible+.szbox{outline:2px solid var(--primary);outline-offset:2px}
+.notsure{margin:0 0 8px}
+.piece .notsure{display:none}
+#pieces .piece:first-child .notsure{display:block}
+.fit{margin:0 0 12px;padding:10px 12px;border-radius:12px;background:var(--soft);border:1px solid #bfe0e6;font-size:13px;line-height:1.45}
+.quick{margin:10px 0 6px}
+.quick-h{display:block;font-weight:600;font-size:13px;margin:0 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:600 13px Inter,sans-serif;color:var(--text);background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;cursor:pointer}
+.chip:hover,.chip:focus-visible{border-color:var(--primary);color:var(--primary-d)}
 .piece{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;background:#fbfcfd}
 .piece-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:700;font-size:14px}
 .x{border:0;background:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0 4px}
@@ -119,11 +138,12 @@ footer{max-width:860px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font
       <h2 class="step"><span>2</span>What are you sending?</h2>
       <select name="item" id="item" aria-label="What are you sending?"></select>
       <p class="hint" id="item-hint"></p>
+      <div class="quick" id="quick" hidden><span class="quick-h">Or tap what you're sending</span><div class="chips" id="chips"></div><p class="hint" id="quick-note" hidden></p></div>
       <details class="info"><summary>What can't be sent?</summary><p id="refused"></p></details>
 
       <div id="size-step">
         <h2 class="step"><span>3</span>How heavy and how big?</h2>
-        <p class="hint" style="margin:-4px 0 10px">Pick the closest size and weigh it. A big, light box takes more room in the van, so it can be priced by its size, as every courier does.</p>
+        <p class="hint" style="margin:-4px 0 10px">Tap the closest size, then add the weight. A big, light box takes more room in the van, so it can be priced by its size, as every courier does.</p>
         <div id="pieces"></div>
         <button type="button" class="btn ghost small" id="add-piece">+ Add another piece</button>
         <p class="hint">For pieces of a different size or weight. Same size? Use "How many".</p>
@@ -191,12 +211,52 @@ footer{max-width:860px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font
   $$('.tab').forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-tab')); }); });
 
   // ---- The form ----
+  var pieceSeq = 0;
+  var auto = false;
+  var programmatic = false;
+  function firstPiece() { return $('#pieces .piece'); }
+  // One tap card per size, with its drawing; the last is the ruler ("Measure it yourself").
+  function sizeCards(seq) {
+    var list = opts.boxSizes.map(function (b) { return { id: b.id, label: b.label, hint: b.hint, line: b.l + ' × ' + b.w + ' × ' + b.h + ' cm', svg: b.iconSvg }; });
+    list.push({ id: 'custom', label: 'Measure it yourself', hint: 'Use a ruler', line: 'Type the size in cm', svg: opts.customSize && opts.customSize.iconSvg });
+    return '<div class="szs" role="radiogroup" aria-label="Size of this piece">' + list.map(function (b) {
+      var svg = b.svg && /^<svg[ >]/.test(b.svg) ? b.svg : '';
+      return '<label class="sz"><input type="radio" name="size' + seq + '" value="' + esc(b.id) + '" data-k="size"><span class="szbox">' + svg + '<b>' + esc(b.label) + '</b><em>' + esc(b.hint) + '</em><small>' + esc(b.line) + '</small></span></label>';
+    }).join('') + '</div>';
+  }
   function pieceHtml() {
-    var sizes = opts.boxSizes.map(function (b) { return '<option value="' + b.id + '">' + esc(b.label + ': ' + b.hint.toLowerCase() + ' (' + b.l + ' × ' + b.w + ' × ' + b.h + ' cm)') + '</option>'; }).join('');
+    pieceSeq++;
     return '<div class="piece"><div class="piece-h"><span class="pn">Piece</span><button type="button" class="x" aria-label="Remove this piece">✕</button></div>'
-      + '<label class="f"><span>Size</span><select data-k="size"><option value="">Choose the closest size</option>' + sizes + '<option value="custom">Another size: I\'ll measure it</option></select></label>'
+      + sizeCards(pieceSeq)
+      + '<p class="hint notsure">Not sure? Pick the closest. We measure it at the counter.</p>'
+      + '<p class="fit" data-fit hidden></p>'
       + '<div class="grid3" data-dims hidden><label class="f"><span>Length cm</span><input data-k="lengthCm" inputmode="decimal"></label><label class="f"><span>Width cm</span><input data-k="widthCm" inputmode="decimal"></label><label class="f"><span>Height cm</span><input data-k="heightCm" inputmode="decimal"></label></div>'
       + '<div class="grid2"><label class="f"><span>Weight kg</span><input data-k="weightKg" inputmode="decimal" placeholder="e.g. 2"></label><label class="f"><span>How many</span><input data-k="quantity" inputmode="numeric" placeholder="1"></label></div></div>';
+  }
+  // "Medium box: a school bag's worth, about 8 kg of clothes": what fits in the chosen size, under its cards.
+  function showFit(piece, extra) {
+    var line = $('[data-fit]', piece);
+    var r = $('input[data-k=size]:checked', piece);
+    if (!r) { line.hidden = true; return; }
+    var label, fits;
+    if (r.value === 'custom') { label = 'Measure it yourself'; fits = 'Use a tape measure or a ruler, in cm'; }
+    else {
+      var b = opts.boxSizes.filter(function (x) { return x.id === r.value; })[0] || {};
+      label = b.label || r.value; fits = b.fits || b.hint || '';
+    }
+    line.textContent = label + ': ' + fits.charAt(0).toLowerCase() + fits.slice(1) + '.' + (extra ? ' ' + extra : '');
+    line.hidden = false;
+  }
+  // Tick a size card for the code (not the person); isAuto marks a suggestion, so a later suggestion may replace it.
+  function setSize(piece, id, isAuto, extra) {
+    var r = $('input[data-k=size][value="' + id + '"]', piece);
+    if (!r) return;
+    programmatic = true;
+    r.checked = true;
+    r.dispatchEvent(new Event('change', { bubbles: true }));
+    programmatic = false;
+    if (piece === firstPiece()) auto = !!isAuto;
+    showFit(piece, extra);
   }
   function renumber() {
     var ps = $$('#pieces .piece');
@@ -208,25 +268,65 @@ footer{max-width:860px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font
     wrap.innerHTML = pieceHtml();
     var p = wrap.firstChild;
     $('#pieces').appendChild(p);
-    var size = $('[data-k=size]', p);
-    size.addEventListener('change', function () {
-      var dims = $('[data-dims]', p);
-      dims.hidden = size.value !== 'custom';
-      if (size.value === 'custom') $('input', dims).focus(); else $$('input', dims).forEach(function (i) { i.value = ''; });
+    $$('input[data-k=size]', p).forEach(function (r) {
+      r.addEventListener('change', function () {
+        var dims = $('[data-dims]', p);
+        var custom = r.value === 'custom';
+        dims.hidden = !custom;
+        if (!custom) $$('input', dims).forEach(function (x) { x.value = ''; }); else if (!programmatic) $('input', dims).focus();
+        if (!programmatic) {
+          if (p === firstPiece()) auto = false;
+          showFit(p);
+        }
+      });
     });
     $('.x', p).addEventListener('click', function () { p.remove(); renumber(); });
     renumber();
-    if (focus) size.focus();
+    if (focus) $('input[data-k=size]', p).focus();
     return p;
   }
   $('#add-piece').addEventListener('click', function () { addPiece(true); });
 
-  function onItem() {
+  function onItem(fromQuick) {
     var it = opts.items.filter(function (i) { return i.id === $('#item').value; })[0];
     $('#item-hint').textContent = it ? it.hint : '';
     $('#size-step').hidden = $('#item').value === 'phone';
-    var first = $('#pieces [data-k=size]');
-    if ($('#item').value === 'documents' && first && !first.value) { first.value = 'envelope'; first.dispatchEvent(new Event('change')); }
+    if (fromQuick === true) return;
+    $('#quick-note').hidden = true;
+    // Item first: pick the usual size for it, unless the person already chose one themselves.
+    var p1 = firstPiece();
+    if (!p1 || !it) return;
+    var cur = $('input[data-k=size]:checked', p1);
+    if (it.suggestedSize && (!cur || auto)) setSize(p1, it.suggestedSize, true, 'Suggested for ' + it.label.toLowerCase() + ": change it if it's wrong.");
+    else if (!it.suggestedSize && auto && cur) { cur.checked = false; auto = false; showFit(p1); }
+  }
+  // Quick picks: one tap fills in what it is, its box and about what it weighs.
+  function buildQuick(list) {
+    if (!list || !list.length) return;
+    $('#chips').innerHTML = list.map(function (x) { return '<button type="button" class="chip" data-quick="' + esc(x.id) + '">' + esc(x.label) + '</button>'; }).join('');
+    $('#quick').hidden = false;
+    $$('#chips [data-quick]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var sc = list.filter(function (x) { return x.id === b.getAttribute('data-quick'); })[0];
+        if (!sc) return;
+        $('#item').value = sc.item;
+        onItem(true);
+        var note = $('#quick-note');
+        var p1 = firstPiece();
+        if (sc.size && p1) {
+          setSize(p1, sc.size, false);
+          if (sc.kg) $('[data-k=weightKg]', p1).value = sc.kg;
+          $('[data-k=quantity]', p1).value = '';
+          var bx = opts.boxSizes.filter(function (x) { return x.id === sc.size; })[0];
+          note.textContent = 'Filled in: ' + sc.label + ', ' + (bx ? bx.label.toLowerCase() : sc.size) + (sc.kg ? ', about ' + sc.kg + ' kg' : '') + ". Change anything that isn't right.";
+        } else {
+          note.textContent = 'A cellphone has one price, whatever it weighs.';
+        }
+        note.hidden = false;
+        var target = sc.size && p1 ? $('[data-k=weightKg]', p1) : note;
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
   }
   function reveal(sel, box) {
     $(sel).addEventListener('change', function () {
@@ -250,8 +350,9 @@ footer{max-width:860px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font
     $('#account').innerHTML = o.accounts.map(function (a) { return '<option value="' + esc(a.id) + '">' + (a.pct ? esc('Business account, ' + a.label.replace(/^Account:\s*/, '') + ' spent: ' + a.pct + '% off') : 'No, just this one') + '</option>'; }).join('');
     reveal('#insure', '#value-box');
     reveal('#cod', '#cod-box');
-    $('#item').addEventListener('change', onItem);
+    $('#item').addEventListener('change', function () { onItem(); });
     addPiece(false);
+    buildQuick(o.shortcuts);
     onItem();
   }
 
@@ -261,7 +362,7 @@ footer{max-width:860px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font
     var item = $('#item').value;
     var pieces = item === 'phone' ? [] : $$('#pieces .piece').map(function (p) {
       var o = {};
-      $$('[data-k]', p).forEach(function (el) { o[el.getAttribute('data-k')] = el.value; });
+      $$('[data-k]', p).forEach(function (el) { if (el.type === 'radio' && !el.checked) return; o[el.getAttribute('data-k')] = el.value; });
       return { weightKg: num(o.weightKg), size: o.size || undefined, lengthCm: num(o.lengthCm), widthCm: num(o.widthCm), heightCm: num(o.heightCm), quantity: num(o.quantity) };
     });
     return {
