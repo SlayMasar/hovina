@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="https://hovina.co.zw/favicon-32x32.png">
+<title>ZimPost fair pricing · Hovina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,650&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column (~720px) with wide tables that scroll in their own box; a stamp-like label marks each section. */
+:root {
+  --bg: #f6f7f4;
+  --paper: #ffffff;
+  --ink: #1d2422;
+  --muted: #5b6662;
+  --line: #d9ded9;
+  --accent: #b5541c;      /* postage-stamp orange */
+  --accent-soft: #f4e3d6;
+  --down: #2f7a5b;        /* cheaper than today */
+  --up: #b03a2e;          /* dearer than today */
+  --display: "Literata", Georgia, "Times New Roman", serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141917; --paper: #1c2220; --ink: #e7ebe8; --muted: #a2ada8; --line: #2f3835;
+    --accent: #e98a4f; --accent-soft: #3a2a20; --down: #5fc497; --up: #ef7b6d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141917; --paper: #1c2220; --ink: #e7ebe8; --muted: #a2ada8; --line: #2f3835;
+  --accent: #e98a4f; --accent-soft: #3a2a20; --down: #5fc497; --up: #ef7b6d; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 64px; }
+main { max-width: 760px; margin: 0 auto; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: clamp(30px, 6vw, 44px); font-weight: 650; }
+h2 { font-size: 24px; font-weight: 650; }
+h3 { font-size: 17px; font-weight: 650; }
+p { margin: 0; }
+section { display: grid; gap: 14px; min-width: 0; }
+.label { font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); border: 1px dashed var(--accent); padding: 5px 8px; justify-self: start; border-radius: 2px; }
+.lede { font-size: 18px; color: var(--ink); }
+.muted { color: var(--muted); }
+.small { font-size: 14px; }
+ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.fig { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; display: grid; gap: 2px; }
+.fig b { font: 500 26px/1.1 var(--mono); font-variant-numeric: tabular-nums; }
+.fig span { font-size: 13px; color: var(--muted); }
+.scroll { overflow-x: auto; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.n, th.n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dn { color: var(--down); } .upc { color: var(--up); }
+.note { background: var(--accent-soft); border-radius: 6px; padding: 14px 16px; display: grid; gap: 6px; }
+.bars { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 16px; display: grid; gap: 10px; }
+.bar { display: grid; grid-template-columns: minmax(110px, 30%) 1fr 56px; align-items: center; gap: 10px; font-size: 14px; }
+.track { position: relative; height: 14px; }
+.track::before { content: ""; position: absolute; left: 50%; top: -4px; bottom: -4px; border-left: 1px solid var(--muted); }
+.fill { position: absolute; top: 0; height: 100%; border-radius: 2px; }
+.bar .v { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+.axis { display: grid; grid-template-columns: minmax(110px, 30%) 1fr 56px; gap: 10px; font: 12px var(--mono); color: var(--muted); }
+.axis div { display: flex; justify-content: space-between; }
+.steps { display: grid; gap: 10px; counter-reset: s; }
+.step { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 12px 16px; display: grid; gap: 4px; }
+footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: 13px; color: var(--muted); }
+a { color: var(--accent); }
+@media (max-width: 480px) { .bar, .axis { grid-template-columns: 96px 1fr 48px; } }
+</style>
+
+</head>
+<body>
+<header style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid rgba(127,127,127,.25);background:#fff;position:sticky;top:0;z-index:5;font-family:Inter,system-ui,sans-serif">
+  <a href="https://hovina.co.zw/"><img src="https://hovina.co.zw/logo-transparent.png" alt="Hovina" style="height:30px;display:block"></a>
+  <nav><a href="/proposals/zp-calculator/" style="margin-left:18px;text-decoration:none;color:#0e1d30;font-weight:600;font-size:14px">Calculator</a><a href="/proposals/zp-calculator/proposal/" style="margin-left:18px;text-decoration:none;color:#2290a3;font-weight:600;font-size:14px">Proposal</a></nav>
+</header>
+<main>
+  <header style="display:grid;gap:12px">
+    <span class="label">Proposal for ZimPost · October 2026</span>
+    <h1>Fair parcel prices that keep ZimPost's revenue</h1>
+    <p class="lede">Price by distance, size and speed, as DHL, UPS, FedEx and China's couriers do, adapted to ZimPost's network. On a stand-in month of 6,000 shipments the new prices earn <b>3.1% to 4.8% more</b> than today's charts, whatever speed customers choose. Short trips get cheaper, long trips cost a little more, and extras like door delivery are new income on top.</p>
+  </header>
+
+  <div class="figures">
+    <div class="fig"><b>+3.1 to +4.8%</b><span>Revenue against today, three customer-choice scenarios</span></div>
+    <div class="fig"><b>−6 to −15%</b><span>Trips up to 120 km and within a town</span></div>
+    <div class="fig"><b>+12 to +17%</b><span>Trips over 450 km</span></div>
+    <div class="fig"><b>5–7%</b><span>Shipments that pay 30% or more extra</span></div>
+  </div>
+
+  <section>
+    <span class="label">Why change</span>
+    <h2>What today's charts get wrong</h2>
+    <ul>
+      <li><b>Zones are a town list, not distance.</b> 127 km to Chinhoyi costs $7, more than 447 km to Bulawayo at $5. Norton costs the same as Beitbridge.</li>
+      <li><b>Only weight counts.</b> A big, light box pays like a small one, though it fills the van.</li>
+      <li><b>The EMS bands jump</b>, 17 kg is missing and 45 kg sits in two bands.</li>
+      <li><b>The medicine rate isn't cheaper.</b> 30 kg of medicine costs $35, against $25 on EMS.</li>
+      <li><b>EMS and Fast Parcel cost the same</b>, so speed has no price and the slower service has no reason to exist.</li>
+      <li><b>No charges for extras</b>: door collection or delivery, remote places, oversize, cover, cash on delivery.</li>
+      <li><b>Fuel is baked into the charts</b>, so every diesel change means new charts or a thinner margin.</li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="label">The method</span>
+    <h2>How a price is worked out</h2>
+    <div class="steps">
+      <div class="step"><h3>1. What is it?</h3><p>Every quote starts with the item. A <b>cellphone</b> has one secure price, $5 before VAT, any weight; the battery stays inside, at most two phones a parcel, and the value is declared for cover. <b>Medicine</b> goes priority at Express speed for about today's price (+3% on average, cheaper when heavy), sealed and labelled in English. <b>Fresh food</b> goes Express only. <b>Not accepted:</b> cash, jewellery and precious stones, weapons, explosives, power banks and loose batteries.</p></div>
+      <div class="step"><h3>2. Chargeable weight</h3><p>The real weight, or the size weight (L × W × H in cm ÷ 6,000, as SF Express and JD use), whichever is more, rounded up to 0.5 kg. Size only counts for pieces of 0.05 m³ or more (about 40 × 40 × 31 cm), so small items always go by weight. In year one size can count for at most double the real weight, for boxes up to 0.25 m³; anything bigger pays its full size. No side may be over 150 cm for a parcel; longer goes as freight.</p></div>
+      <div class="step"><h3>3. Zone by road distance</h3><p>Same town ×0.8 · up to 120 km ×0.9 · up to 250 km ×0.95 · up to 450 km ×1 (today's Zone A level) · up to 650 km ×1.08 · beyond ×1.15.</p></div>
+      <div class="step"><h3>4. Service</h3><p><b>Standard (Fast Parcel) is today's price.</b> Express (EMS), next day by 12:00 between main centres, is +15%. In town a motorbike same-day service is offered too. Economy, collected at the post office in 3 to 5 days, is −10% and fills spare space. The EMS Pack stays at its flat national price.</p></div>
+      <div class="step"><h3>5. Freight and whole vehicles</h3><p>From 71 kg, freight by the kg, cheaper per kg as loads grow, with an 80 kg minimum so 71 kg never costs a quarter more than 70 kg. A whole vehicle (bike to 30 t), priced from fuel, wear, driver days, tolls and the trip back plus 25%, is offered from 3,000 kg or when freight can't take the load, and never for less than the largest freight load on that route, so 3,000 kg never costs less than 2,999 kg.</p></div>
+      <div class="step"><h3>6. Fuel, extras, VAT</h3><p>Fuel surcharge of +1% for every 5c diesel is above $1.70 (5% at $1.95), changed with one number when ZERA moves the price. Extras are separate lines: remote area (not on prepaid envelopes or phones), door collection or delivery, oversize, fragile, cover above $50, cash on delivery, Saturday. Then VAT 15.5%, rounded up to the next 50c because change is scarce.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="label">The money</span>
+    <h2>Revenue holds whatever customers choose</h2>
+    <p>Today everyone pays one price whatever the speed. Once speeds have different prices, some customers will move to the cheaper ones, so the month was priced three ways. Each sender takes the cheapest option that is at least as fast as they want. Figures are before VAT and extras.</p>
+    <div class="scroll"><table>
+      <tr><th>If customers choose</th><th class="n">Today</th><th class="n">New prices</th><th class="n">Change</th><th class="n">Pay 30%+ more</th></tr>
+      <tr><td>Most stay fast (70% Express, 20% Standard, 10% Economy)</td><td class="n">$258,433</td><td class="n">$270,752</td><td class="n upc">+4.8%</td><td class="n">7.4%</td></tr>
+      <tr><td>Balanced (40% / 40% / 20%)</td><td class="n">$258,433</td><td class="n">$268,141</td><td class="n upc">+3.8%</td><td class="n">6.2%</td></tr>
+      <tr><td>Most chase the cheapest (20% / 50% / 30%)</td><td class="n">$258,433</td><td class="n">$266,461</td><td class="n upc">+3.1%</td><td class="n">5.3%</td></tr>
+    </table></div>
+    <p class="small muted">It held across four different random months (+3.0% to +5.1%). The weakest case is a month of parcels only where most customers chase the cheapest: −0.5% to −0.8%; with other choices parcels alone gain +1.8% to +5.7%. Counting the new remote-area charge alone adds about 2 points.</p>
+
+    <h3 style="margin-top:8px">Who pays more, who pays less (balanced)</h3>
+    <div class="bars" role="img" aria-label="Change against today by distance: same town minus 15 percent, up to 120 km minus 6, up to 250 km about the same, 250 to 450 km plus 5, 450 to 650 km plus 12, over 650 km plus 17.">
+      <div class="bar"><span>Same town</span><div class="track"><div class="fill" style="right:50%;width:30%;background:var(--down)"></div></div><span class="v dn">−15%</span></div>
+      <div class="bar"><span>Up to 120 km</span><div class="track"><div class="fill" style="right:50%;width:12%;background:var(--down)"></div></div><span class="v dn">−6%</span></div>
+      <div class="bar"><span>Up to 250 km</span><div class="track"><div class="fill" style="right:50%;width:0%;background:var(--down)"></div></div><span class="v">0%</span></div>
+      <div class="bar"><span>250–450 km</span><div class="track"><div class="fill" style="left:50%;width:10%;background:var(--up)"></div></div><span class="v upc">+5%</span></div>
+      <div class="bar"><span>450–650 km</span><div class="track"><div class="fill" style="left:50%;width:24%;background:var(--up)"></div></div><span class="v upc">+12%</span></div>
+      <div class="bar"><span>Over 650 km</span><div class="track"><div class="fill" style="left:50%;width:34%;background:var(--up)"></div></div><span class="v upc">+17%</span></div>
+      <div class="axis"><span></span><div><span>−25%</span><span>today</span><span>+25%</span></div><span></span></div>
+    </div>
+    <div class="scroll"><table>
+      <tr><th>Group</th><th class="n">Shipments</th><th class="n">Today</th><th class="n">New</th><th class="n">Change</th></tr>
+      <tr><td>Up to 1 kg</td><td class="n">2,186</td><td class="n">$8,969</td><td class="n">$8,590</td><td class="n dn">−4%</td></tr>
+      <tr><td>1–5 kg</td><td class="n">1,463</td><td class="n">$10,023</td><td class="n">$9,725</td><td class="n dn">−3%</td></tr>
+      <tr><td>5–15 kg</td><td class="n">873</td><td class="n">$12,320</td><td class="n">$11,723</td><td class="n dn">−5%</td></tr>
+      <tr><td>15–40 kg</td><td class="n">700</td><td class="n">$18,733</td><td class="n">$20,834</td><td class="n upc">+11%</td></tr>
+      <tr><td>40–100 kg</td><td class="n">360</td><td class="n">$19,665</td><td class="n">$20,184</td><td class="n upc">+3%</td></tr>
+      <tr><td>100–1,000 kg (freight)</td><td class="n">302</td><td class="n">$89,435</td><td class="n">$94,266</td><td class="n upc">+5%</td></tr>
+      <tr><td>1,000–2,999 kg (freight)</td><td class="n">116</td><td class="n">$99,288</td><td class="n">$102,818</td><td class="n upc">+4%</td></tr>
+      <tr><td>Medicine</td><td class="n">229</td><td class="n">$15,747</td><td class="n">$16,286</td><td class="n upc">+3%</td></tr>
+      <tr><td>Cellphones</td><td class="n">196</td><td class="n">$820</td><td class="n">$980</td><td class="n upc">+20%</td></tr>
+    </table></div>
+  </section>
+
+  <section>
+    <span class="label">Examples</span>
+    <h2>Real routes, today and new</h2>
+    <p class="small muted">New prices are before VAT, with the 5% fuel surcharge, counter to counter.</p>
+    <div class="scroll"><table>
+      <tr><th>Shipment</th><th class="n">Road</th><th class="n">Today</th><th class="n">Economy</th><th class="n">Standard</th><th class="n">Express</th></tr>
+      <tr><td>Harare → Chitungwiza, 2 kg</td><td class="n">25 km</td><td class="n">$7.00</td><td class="n">$3.71</td><td class="n">$4.12</td><td class="n">$4.74</td></tr>
+      <tr><td>Harare → Chinhoyi, 2 kg</td><td class="n">127 km</td><td class="n">$7.00</td><td class="n">$4.40</td><td class="n">$4.89</td><td class="n">$5.62</td></tr>
+      <tr><td>Harare → Bulawayo, 2 kg</td><td class="n">447 km</td><td class="n">$5.00</td><td class="n">$4.63</td><td class="n">$5.15</td><td class="n">$5.92</td></tr>
+      <tr><td>Harare → Beitbridge, 2 kg</td><td class="n">610 km</td><td class="n">$7.00</td><td class="n">$5.00</td><td class="n">$5.55</td><td class="n">$6.39</td></tr>
+      <tr><td>Bulawayo → Binga, 10 kg</td><td class="n">379 km</td><td class="n">$14.00</td><td class="n">$11.43</td><td class="n">$12.71</td><td class="n">$14.62</td></tr>
+      <tr><td>Harare → Mutare, 20 kg</td><td class="n">259 km</td><td class="n">$20.00</td><td class="n">$17.58</td><td class="n">$19.53</td><td class="n">$22.46</td></tr>
+      <tr><td>Harare → Bulawayo, 5 kg box 60 × 50 × 40 cm</td><td class="n">447 km</td><td class="n">$7.00</td><td class="n">$11.43</td><td class="n">$12.71</td><td class="n">$14.62</td></tr>
+      <tr><td>Harare → Bulawayo, 1 kg medicine</td><td class="n">447 km</td><td class="n">$4.00</td><td class="n" colspan="3" style="text-align:right">Medicine priority $4.44</td></tr>
+      <tr><td>Harare → Mutare, a cellphone</td><td class="n">259 km</td><td class="n">$3.00</td><td class="n" colspan="3" style="text-align:right">Secure phone price $5.00</td></tr>
+      <tr><td>Harare → Bulawayo, 107 kg freight</td><td class="n">447 km</td><td class="n">$68.50</td><td class="n" colspan="3" style="text-align:right">Freight $73.03</td></tr>
+      <tr><td>Harare → Gweru, 1,500 kg freight</td><td class="n">271 km</td><td class="n">$695.00</td><td class="n" colspan="3" style="text-align:right">Freight $724.50</td></tr>
+    </table></div>
+    <p class="small muted">The 60 × 50 × 40 cm box is charged as 10 kg because of its size; that is the point of size pricing. Heavy medicine gets cheaper than today: 30 kg is about $22.60 in the new system, against $25 on EMS and $35 on today's medicine chart.</p>
+  </section>
+
+  <section>
+    <span class="label">Safeguards</span>
+    <h2>No price jumps, no loopholes</h2>
+    <p>The prices were tested with customers free to choose the cheapest option, and against edge cases, so no load or size can be sent for less by gaming the rules.</p>
+    <ul>
+      <li><b>A whole vehicle never undercuts freight.</b> It is offered from 3,000 kg, or when freight can't take the load, and never costs less than shared freight would charge for the same load. So 3,000 kg never costs less than 2,999 kg.</li>
+      <li><b>No jump where parcels end.</b> Freight has an 80 kg minimum, so 71 kg costs about what 70 kg does.</li>
+      <li><b>Speed pays its way.</b> Standard keeps today's price; Express carries the premium for next-day delivery, so cheaper services don't eat revenue.</li>
+      <li><b>Few shocks.</b> Size counts only for big boxes, at most double the real weight in year one, so only 5–7% of shipments pay 30% or more extra, mostly people who choose Express and big, light boxes.</li>
+      <li><b>Nothing oversized slips through as a parcel.</b> Parcels are at most 150 cm on any side; anything longer goes by freight at its minimum.</li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="label">Decisions for ZimPost</span>
+    <h2>Two choices only ZimPost can make</h2>
+    <ul>
+      <li><b>Are today's chart prices with VAT or without?</b> We compared before VAT. If today's charts already include VAT, every base price here must drop by about 13% (÷ 1.155) so customers pay no more than now on average.</li>
+      <li><b>Freight against hiring a truck.</b> Above about a tonne, per-kg freight costs 2 to 5 times what a whole truck costs to run (Harare → Mutare, 2 t: $1,116 freight against about $400 for the truck). Today's chart does the same. Capping freight at the truck cost would be fairer but cuts revenue by 20 to 28% on this month, so the proposal keeps today's freight level and leaves the cap as ZimPost's decision.</li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="label">Rollout</span>
+    <h2>How to switch without surprises</h2>
+    <ul>
+      <li><b>Counters first.</b> Staff quote from the calculator; customers get a printed quote with each line. Today's charts stay visible for the first month for comparison.</li>
+      <li><b>Size pricing phased in.</b> Year one: size counts for at most double the real weight. Review after six months of real data.</li>
+      <li><b>Fuel by the number.</b> One fuel figure, reviewed when ZERA moves the diesel price, instead of reprinting the charts.</li>
+      <li><b>Watch it monthly.</b> Revenue by service, route and branch against the same months last year, with the numbers adjusted in settings rather than in code.</li>
+      <li><b>Then online.</b> The same calculator on WhatsApp and the web, then booking and tracking.</li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="label">From ZimPost</span>
+    <h2>What we need to confirm the numbers</h2>
+    <div class="note">
+      <ul>
+        <li><b>6 to 12 months of shipments</b> (route, weight, service, price). The same comparison then runs on real data instead of the stand-in month.</li>
+        <li><b>The official list of items not accepted</b>, and any rule for phones and medicine. The lists here follow DHL and other carriers and must be checked against ZimPost's own.</li>
+        <li><b>The phone price</b> ZimPost wants. $5 is our proposal, at the EMS Pack 1 kg level.</li>
+        <li><b>Whether today's chart prices include VAT.</b> The charts don't say.</li>
+        <li><b>Vehicle running costs, a road-distance table and the list of open outlets</b>, to replace our estimates.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>Assumptions.</b> The stand-in month is made up: 60% to or from the five main centres, most under 5 kg, 10% bulky, 4% medicine, 3% phones. Road distance is straight-line × 1.22, checked against Harare–Bulawayo and Harare–Mutare. Diesel $1.95/L (ZERA, August 2026). VAT 15.5% (Finance Act 2025). Today's prices are ZimPost's four charts as supplied (EMS Packs, EMS Domestic / Fast Parcel, Pharmaceuticals, Freight / Cargo). Every number above can be changed in the calculator's settings without code.</p>
+    <p style="margin-top:8px">Prepared by Hovina. Size-weight practice: SF Express and JD Logistics (÷6,000), DHL, UPS and FedEx (dimensional weight). Phone and battery rules: DHL Express prohibited and restricted items.</p>
+  </footer>
+</main>
+
+</body>
+</html>
