@@ -18,8 +18,8 @@ export function Navbar() {
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
           <a href="/#services" className="hover:text-foreground transition-colors">Services</a>
-          <a href="/#about" className="hover:text-foreground transition-colors">About</a>
-          <a href="/#stats" className="hover:text-foreground transition-colors">Impact</a>
+          <a href="/#work" className="hover:text-foreground transition-colors">Products</a>
+          <a href="/#process" className="hover:text-foreground transition-colors">Process</a>
         </nav>
       </div>
     </header>
