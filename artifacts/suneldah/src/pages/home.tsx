@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import "@/big-type.css";
+import { LogoMark } from "@/components/logo";
 
 const CONTACT_URL = "https://mejesi.com/api/hovina-contact";
 
@@ -66,7 +67,7 @@ export default function Home() {
     <div className="b" id="top">
       <div className="b-wrap">
         <header className="b-nav">
-          <a className="b-logo" href="#top" aria-label="Hovina home">Hovina<i>.</i></a>
+          <a className="b-logo" href="#top" aria-label="Hovina home"><LogoMark />Hovina<i>.</i></a>
           <nav className="b-links" aria-label="Main">
             <a className="hide-s" href="#services">Services</a>
             <a className="hide-s" href="#work">Work</a>
