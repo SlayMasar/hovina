@@ -82,3 +82,25 @@
 .b-form-done{display:block;padding:10px 0}
 .b-form-done p{margin:0 0 10px}
 @media(max-width:640px){.b-form{grid-template-columns:1fr}}
+
+/* Legal and utility pages: same content, Big Type theme */
+.b-bar{background:var(--paper)}
+.b-bar .b-nav{padding:28px 0}
+.b-legal{min-height:100vh;display:flex;flex-direction:column;background:var(--paper);color:var(--ink)}
+.b-legal>main{flex:1;width:100%}
+.b-legal h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-.045em;line-height:.95;font-size:clamp(2.6rem,7vw,5.2rem)}
+.b-legal h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-.03em;line-height:1.05;border-top:2px solid var(--ink);padding-top:20px;margin-top:8px}
+.b-legal .text-muted-foreground{color:#3b3b37}
+.b-legal .text-foreground,.b-legal strong{color:var(--ink)}
+.b-legal .text-primary,.b-legal main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--lime);text-decoration-thickness:3px;text-underline-offset:3px}
+.b-legal main a:hover{background:var(--lime)}
+.b-legal .b-pill{text-decoration:none}
+.b-legal .border-border{border-color:var(--line)}
+.b-legal .bg-muted\/40,.b-legal .glass-card{background:#fff;border:1.5px solid var(--ink);border-radius:20px;box-shadow:none}
+.b-legal .glass-card>.absolute{background:var(--lime)}
+.b-legal label,.b-legal [data-slot=form-label]{font-family:'DM Mono',monospace;color:#6b6b66}
+.b-legal input,.b-legal textarea{background:#fff;border:1.5px solid var(--ink);border-radius:12px;color:var(--ink);font-family:'DM Sans',sans-serif}
+.b-legal input:focus-visible,.b-legal textarea:focus-visible{outline:3px solid var(--lime);outline-offset:1px;box-shadow:none}
+.b-legal button[type=submit]{background:var(--ink);color:var(--paper);border-radius:99px;font-weight:700}
+.b-legal button[type=submit]:hover{background:#26261f}
+.b-legal-foot{background:var(--ink);color:var(--paper);padding:34px 0}
