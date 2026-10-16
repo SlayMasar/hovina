@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import "@/big-type.css";
 
 const CONTACT_URL = "https://mejesi.com/api/hovina-contact";
@@ -6,6 +6,12 @@ const CONTACT_URL = "https://mejesi.com/api/hovina-contact";
 function ContactForm() {
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState("");
+  const box = useRef<HTMLDivElement>(null);
+
+  // The form is replaced by the confirmation, so bring that into view.
+  useEffect(() => {
+    if (state === "sent") box.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [state]);
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -30,22 +36,26 @@ function ContactForm() {
 
   if (state === "sent") {
     return (
-      <div className="b-form b-form-done" role="status">
-        <p className="b-d" style={{ fontSize: "clamp(2rem,4vw,3.2rem)" }}>Message sent.</p>
-        <p>Thank you. We will get back to you within 24 hours.</p>
+      <div className="b-form b-form-done" role="status" ref={box}>
+        <svg className="b-check" viewBox="0 0 52 52" aria-hidden="true">
+          <circle className="b-check-c" cx="26" cy="26" r="24" fill="none" />
+          <path className="b-check-p" fill="none" d="M14 27l8 8 16-17" />
+        </svg>
+        <p className="b-d b-pop" style={{ fontSize: "clamp(2rem,4vw,3.2rem)" }}>Message sent.</p>
+        <p className="b-pop2">Thank you, we have your message and will reply by email.</p>
       </div>
     );
   }
 
   return (
-    <form className="b-form" onSubmit={submit}>
+    <form className="b-form" onSubmit={submit} aria-busy={state === "sending"}>
       <label>Your name<input name="name" required maxLength={120} autoComplete="name" /></label>
       <label>Email<input name="email" type="email" required maxLength={120} autoComplete="email" /></label>
       <label className="wide">WhatsApp number (optional)<input name="whatsapp" maxLength={40} autoComplete="tel" placeholder="+263 77 000 0000" /></label>
       <label className="wide">What do you want to build?<textarea name="message" required rows={5} maxLength={4000} /></label>
       <div style={{ position: "absolute", left: "-9999px" }} aria-hidden="true"><input name="website" tabIndex={-1} autoComplete="off" /></div>
       {state === "error" && <p className="b-form-err wide" role="alert">{error} You can also email dev@hovina.co.zw.</p>}
-      <button className="b-pill lime wide" type="submit" disabled={state === "sending"}>{state === "sending" ? "Sending…" : "Send message"}</button>
+      <button className="b-pill lime wide" type="submit" disabled={state === "sending"}>{state === "sending" ? (<><span className="b-spin" aria-hidden="true" />Sending…</>) : "Send message"}</button>
     </form>
   );
 }
