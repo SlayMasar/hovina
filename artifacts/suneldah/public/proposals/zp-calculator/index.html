@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ZimPost calculator · Hovina</title>
+<link rel="icon" href="https://hovina.co.zw/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8fafb;--text:#0e1d30;--muted:#5a6b80;--line:#dbe2ea;--card:#fff;--primary:#2290a3;--primary-d:#1a7384;--soft:#e8f4f6;--up:#b4532a;--down:#1f7a4d;--err:#b42318}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,sans-serif}
+a{color:var(--primary-d)}
+h1,h2,h3{font-family:Outfit,Inter,sans-serif;letter-spacing:-.01em}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:5}
+.top img{height:30px;display:block}
+.top nav a{margin-left:18px;text-decoration:none;color:var(--text);font-weight:600;font-size:14px}
+.top nav a.on{color:var(--primary)}
+main{max-width:860px;margin:0 auto;padding:24px 16px 56px}
+h1{font-size:28px;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 18px;font-size:14px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 18px}
+.tab{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:999px;padding:8px 14px;font:600 14px Inter,sans-serif;cursor:pointer}
+.tab.on{background:var(--primary);border-color:var(--primary);color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:12px}
+.step{display:flex;align-items:center;gap:10px;font-size:17px;margin:28px 0 12px}
+#qf>.step:first-child{margin-top:0}
+.step>span:first-child{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--soft);color:var(--primary-d);font:800 13px Inter,sans-serif;flex:none}
+label.f{display:block;margin:0 0 12px}
+label.f>span{display:block;font-weight:600;font-size:13px;margin:0 0 5px}
+label.f>span small{font-weight:500;color:var(--muted);margin-left:6px}
+input,select{width:100%;font:15px Inter,sans-serif;color:var(--text);background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 12px;outline:none}
+input:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(34,144,163,.15)}
+.hint{color:var(--muted);font-size:13px;margin:6px 0 0;line-height:1.45}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+details.info{margin:8px 0 0;font-size:13px}
+details.info summary{cursor:pointer;color:var(--primary-d);font-weight:600}
+details.info p{color:var(--muted);margin:6px 0 0}
+.piece{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;background:#fbfcfd}
+.piece-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:700;font-size:14px}
+.x{border:0;background:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0 4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--primary);background:var(--primary);color:#fff;font:700 15px Inter,sans-serif;border-radius:12px;padding:13px 18px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--primary-d)}
+.btn.ghost{background:#fff;color:var(--primary-d);border-color:var(--line)}
+.btn.block{width:100%}
+.btn.small{padding:9px 14px;font-size:14px}
+.extras{border-top:1px solid var(--line);margin-top:22px;padding-top:4px}
+.extras>summary{list-style:none;cursor:pointer}
+.extras>summary::-webkit-details-marker{display:none}
+.extras>summary .step::after{content:'▾';margin-left:auto;color:var(--muted)}
+.extras[open]>summary .step::after{content:'▴'}
+.opt-tag{font:500 12px Inter,sans-serif;color:var(--muted)}
+.checks{display:grid;gap:12px;margin:6px 0 18px}
+.checks label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.checks input{width:auto;margin-top:3px}
+.checks b{display:block;font-size:14px}
+.checks small{display:block;color:var(--muted);font-size:13px}
+[hidden]{display:none!important}
+.err{background:#fef3f2;border:1px solid #fecdca;color:var(--err);border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:14px}
+.actions{display:flex;gap:10px;margin:0 0 14px}
+.actions .btn{flex:1}
+.sum{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted);margin:0 0 10px}
+.sum b{color:var(--text)}
+.today{border:1px dashed var(--line);border-radius:12px;padding:10px 14px;font-size:14px;margin-bottom:10px;background:#fff}
+.opt{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:10px}
+.opt.best{border-color:var(--primary);box-shadow:0 0 0 1px var(--primary)}
+.opt-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.opt-name{font-weight:700;font-size:15px}
+.badge{display:inline-block;background:var(--soft);color:var(--primary-d);font-size:12px;font-weight:700;border-radius:999px;padding:2px 8px;margin-left:6px}
+.price{font:800 24px Outfit,Inter,sans-serif;white-space:nowrap}
+.eta{color:var(--primary-d);font-weight:700;font-size:14px;margin-top:4px}
+.small{color:var(--muted);font-size:13px;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{padding:6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px}
+td.n,th.n{text-align:right;white-space:nowrap}
+.opt table{margin-top:8px}
+.opt details summary{cursor:pointer;color:var(--primary-d);font-size:13px;margin-top:8px;font-weight:600}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+h3.t{font-size:17px;margin:26px 0 8px}
+.loading{color:var(--muted);padding:20px 0}
+.up{color:var(--up)}.down{color:var(--down)}
+ul.l{margin:6px 0 0;padding-left:18px}ul.l li{margin-bottom:6px}
+footer{max-width:860px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:13px}
+@media (max-width:560px){.grid2{grid-template-columns:1fr}h1{font-size:24px}.top nav a{margin-left:12px}td,th{padding:5px 4px}}
+@media print{.top,.tabs,form,.actions{display:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a href="https://hovina.co.zw/"><img src="https://hovina.co.zw/logo-transparent.png" alt="Hovina"></a>
+  <nav><a href="/proposals/zp-calculator/" class="on">Calculator</a><a href="/proposals/zp-calculator/proposal/">Proposal</a></nav>
+</header>
+<main>
+  <h1>ZimPost calculator</h1>
+  <p class="sub">Proposal for ZimPost · prices in USD</p>
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-tab="quote">Quote</button>
+    <button class="tab" data-tab="chart">Rate chart</button>
+    <button class="tab" data-tab="compare">Today vs proposal</button>
+    <button class="tab" data-tab="how">How it works</button>
+  </div>
+
+  <section id="tab-quote">
+    <div id="result" hidden></div>
+    <div id="error" class="err" hidden></div>
+    <form id="qf" class="card" novalidate>
+      <h2 class="step"><span>1</span>Where is it going?</h2>
+      <div class="grid2">
+        <label class="f"><span>From</span><input name="from" list="places" placeholder="Town or post office" autocomplete="off" required></label>
+        <label class="f"><span>To</span><input name="to" list="places" placeholder="Town or post office" autocomplete="off" required></label>
+      </div>
+      <datalist id="places"></datalist>
+      <p class="hint" style="margin-top:-4px">Start typing a town or post office and pick it from the list.</p>
+
+      <h2 class="step"><span>2</span>What are you sending?</h2>
+      <select name="item" id="item" aria-label="What are you sending?"></select>
+      <p class="hint" id="item-hint"></p>
+      <details class="info"><summary>What can't be sent?</summary><p id="refused"></p></details>
+
+      <div id="size-step">
+        <h2 class="step"><span>3</span>How heavy and how big?</h2>
+        <p class="hint" style="margin:-4px 0 10px">Pick the closest size and weigh it. A big, light box takes more room in the van, so it can be priced by its size, as every courier does.</p>
+        <div id="pieces"></div>
+        <button type="button" class="btn ghost small" id="add-piece">+ Add another piece</button>
+        <p class="hint">For pieces of a different size or weight. Same size? Use "How many".</p>
+        <details class="info"><summary>How is size priced?</summary><p id="size-rule"></p></details>
+      </div>
+
+      <details class="extras" id="extras">
+        <summary><h2 class="step" style="margin:16px 0 8px"><span>4</span>Extra services <span class="opt-tag">optional</span></h2></summary>
+        <div class="checks">
+          <label><input type="checkbox" name="pickup"><span><b>Collect from my door</b><small>A ZimPost driver picks it up from your address.</small></span></label>
+          <label><input type="checkbox" name="delivery"><span><b>Deliver to their door</b><small>Taken to the recipient's address. Without it, they collect it at their post office.</small></span></label>
+          <label><input type="checkbox" name="fragile"><span><b>Fragile</b><small>Marked fragile and handled with extra care.</small></span></label>
+          <label><input type="checkbox" name="saturday"><span><b>Saturday delivery</b><small>Express only.</small></span></label>
+        </div>
+        <label class="f"><span>Insurance</span><select id="insure"></select></label>
+        <label class="f" id="value-box" hidden><span>What is it worth? <small>USD</small></span><input name="value" inputmode="decimal" placeholder="e.g. 300"><span class="hint" id="insure-cost" style="display:block"></span></label>
+        <label class="f"><span>Cash on delivery</span><select id="cod"><option value="">No</option><option value="1">Yes, collect money for me</option></select><span class="hint" style="display:block">For selling: ZimPost collects the money from the recipient on delivery and pays it to you.</span></label>
+        <label class="f" id="cod-box" hidden><span>Amount to collect <small>USD</small></span><input name="cod" inputmode="decimal" placeholder="e.g. 45"><span class="hint" id="cod-cost" style="display:block"></span></label>
+        <label class="f"><span>Do you send often?</span><select name="account" id="account"></select><span class="hint" style="display:block">Businesses that send a lot get a monthly account with a discount.</span></label>
+      </details>
+      <button class="btn block" type="submit" id="go" style="margin-top:18px">Get prices</button>
+    </form>
+  </section>
+
+  <section id="tab-chart" hidden><div class="loading">Loading the rate chart…</div></section>
+  <section id="tab-compare" hidden><div class="loading">Loading the comparison…</div></section>
+  <section id="tab-how" hidden><div class="loading">Loading…</div></section>
+</main>
+<footer>Prepared by Hovina for ZimPost. All prices are a proposal until ZimPost confirms the numbers.</footer>
+
+<script>
+(function () {
+  var API = (location.port === '8795' ? 'http://localhost:8795' : 'https://mejesi.com') + '/api/v1';
+  var KEY = 'zp_33b3396a44bbd0ec2ff6b22cddbbf194295f';
+  var MAX_PIECES = 10;
+  var opts = null;
+
+  function $(s, root) { return (root || document).querySelector(s); }
+  function $$(s, root) { return Array.prototype.slice.call((root || document).querySelectorAll(s)); }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function money(n) { return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function big(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  function pct(p) { var a = Math.abs(p); return (p >= 0 ? '+' : '−') + (a < 10 ? a.toFixed(1) : String(Math.round(a))) + '%'; }
+  function change(now, before) { return before ? pct((now / before - 1) * 100) : ''; }
+
+  function api(path, body) {
+    var init = { method: body ? 'POST' : 'GET', headers: { 'X-Api-Key': KEY } };
+    if (body) { init.headers['Content-Type'] = 'application/json'; init.body = JSON.stringify(body); }
+    return fetch(API + path, init).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) {
+        if (!r.ok) throw (j && j.error) || { message: 'The price service did not answer. Try again.' };
+        return j;
+      });
+    }, function () { throw { message: 'Could not reach the price service. Check the connection and try again.' }; });
+  }
+
+  // ---- Tabs ----
+  var loaded = {};
+  function show(tab) {
+    $$('.tab').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-tab') === tab); });
+    ['quote', 'chart', 'compare', 'how'].forEach(function (t) { $('#tab-' + t).hidden = t !== tab; });
+    if (!loaded[tab] && tab !== 'quote') { loaded[tab] = true; ({ chart: loadChart, compare: loadCompare, how: loadHow })[tab](); }
+    if (location.hash.slice(1) !== tab) history.replaceState(null, '', location.pathname + (tab === 'quote' ? '' : '#' + tab));
+  }
+  $$('.tab').forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-tab')); }); });
+
+  // ---- The form ----
+  function pieceHtml() {
+    var sizes = opts.boxSizes.map(function (b) { return '<option value="' + b.id + '">' + esc(b.label + ': ' + b.hint.toLowerCase() + ' (' + b.l + ' × ' + b.w + ' × ' + b.h + ' cm)') + '</option>'; }).join('');
+    return '<div class="piece"><div class="piece-h"><span class="pn">Piece</span><button type="button" class="x" aria-label="Remove this piece">✕</button></div>'
+      + '<label class="f"><span>Size</span><select data-k="size"><option value="">Choose the closest size</option>' + sizes + '<option value="custom">Another size: I\'ll measure it</option></select></label>'
+      + '<div class="grid3" data-dims hidden><label class="f"><span>Length cm</span><input data-k="lengthCm" inputmode="decimal"></label><label class="f"><span>Width cm</span><input data-k="widthCm" inputmode="decimal"></label><label class="f"><span>Height cm</span><input data-k="heightCm" inputmode="decimal"></label></div>'
+      + '<div class="grid2"><label class="f"><span>Weight kg</span><input data-k="weightKg" inputmode="decimal" placeholder="e.g. 2"></label><label class="f"><span>How many</span><input data-k="quantity" inputmode="numeric" placeholder="1"></label></div></div>';
+  }
+  function renumber() {
+    var ps = $$('#pieces .piece');
+    ps.forEach(function (p, i) { $('.pn', p).textContent = 'Piece ' + (i + 1); $('.x', p).hidden = ps.length === 1; });
+    $('#add-piece').hidden = ps.length >= MAX_PIECES;
+  }
+  function addPiece(focus) {
+    var wrap = document.createElement('div');
+    wrap.innerHTML = pieceHtml();
+    var p = wrap.firstChild;
+    $('#pieces').appendChild(p);
+    var size = $('[data-k=size]', p);
+    size.addEventListener('change', function () {
+      var dims = $('[data-dims]', p);
+      dims.hidden = size.value !== 'custom';
+      if (size.value === 'custom') $('input', dims).focus(); else $$('input', dims).forEach(function (i) { i.value = ''; });
+    });
+    $('.x', p).addEventListener('click', function () { p.remove(); renumber(); });
+    renumber();
+    if (focus) size.focus();
+    return p;
+  }
+  $('#add-piece').addEventListener('click', function () { addPiece(true); });
+
+  function onItem() {
+    var it = opts.items.filter(function (i) { return i.id === $('#item').value; })[0];
+    $('#item-hint').textContent = it ? it.hint : '';
+    $('#size-step').hidden = $('#item').value === 'phone';
+    var first = $('#pieces [data-k=size]');
+    if ($('#item').value === 'documents' && first && !first.value) { first.value = 'envelope'; first.dispatchEvent(new Event('change')); }
+  }
+  function reveal(sel, box) {
+    $(sel).addEventListener('change', function () {
+      var b = $(box); b.hidden = !$(sel).value;
+      var i = $('input', b); if ($(sel).value) i.focus(); else i.value = '';
+    });
+  }
+
+  function buildForm(o, places) {
+    opts = o;
+    $('#places').innerHTML = places.towns.map(function (t) { return t.name; }).concat(places.postOffices.map(function (p) { return p.name; }))
+      .filter(function (n, i, a) { return a.indexOf(n) === i; }).sort().map(function (n) { return '<option value="' + esc(n) + '">'; }).join('');
+    $('#item').innerHTML = o.items.map(function (i) { return '<option value="' + i.id + '">' + esc(i.label) + '</option>'; }).join('');
+    $('#refused').textContent = o.notAccepted;
+    var s = o.sizing;
+    $('#size-rule').textContent = 'Length × width × height ÷ ' + s.divisor + ' gives a "size weight" in kg. If that is more than the real weight, you pay the size weight. It only counts for boxes of ' + s.minM3 + ' m³ or more (about 40 × 40 × 31 cm)' + (s.cap ? ', and for now at most ' + s.cap + '× the real weight for boxes up to ' + s.capMaxM3 + ' m³' : '') + '. No side may be over ' + s.maxSideCm + ' cm for a parcel; longer goes as freight.';
+    var x = o.extras;
+    $('#insure').innerHTML = '<option value="">Free cover up to $' + x.includedCover + ' (included)</option><option value="1">It\'s worth more than $' + x.includedCover + ': insure it</option>';
+    $('#insure-cost').textContent = 'If it\'s lost or damaged, you get this amount back. Costs ' + x.insurancePct + '% of the value (at least $' + x.insuranceMin + ').';
+    $('#cod-cost').textContent = 'Fee: ' + x.codPct + '% of the amount (at least $' + x.codMin + ').';
+    $('#account').innerHTML = o.accounts.map(function (a) { return '<option value="' + esc(a.id) + '">' + (a.pct ? esc('Business account, ' + a.label.replace(/^Account:\s*/, '') + ' spent: ' + a.pct + '% off') : 'No, just this one') + '</option>'; }).join('');
+    reveal('#insure', '#value-box');
+    reveal('#cod', '#cod-box');
+    $('#item').addEventListener('change', onItem);
+    addPiece(false);
+    onItem();
+  }
+
+  function num(v) { var n = Number(String(v || '').replace(',', '.')); return n > 0 ? n : undefined; }
+  function readForm() {
+    var f = $('#qf');
+    var item = $('#item').value;
+    var pieces = item === 'phone' ? [] : $$('#pieces .piece').map(function (p) {
+      var o = {};
+      $$('[data-k]', p).forEach(function (el) { o[el.getAttribute('data-k')] = el.value; });
+      return { weightKg: num(o.weightKg), size: o.size || undefined, lengthCm: num(o.lengthCm), widthCm: num(o.widthCm), heightCm: num(o.heightCm), quantity: num(o.quantity) };
+    });
+    return {
+      from: f.from.value.trim(), to: f.to.value.trim(), item: item, pieces: pieces,
+      extras: { pickup: f.pickup.checked, delivery: f.delivery.checked, fragile: f.fragile.checked, saturday: f.saturday.checked, insureValue: num(f.value.value), cashOnDelivery: num(f.cod.value) },
+      account: $('#account').value
+    };
+  }
+  function check(q) {
+    if (!q.from) return 'Choose where it is sent from.';
+    if (!q.to) return 'Choose where it is going.';
+    if (q.item === 'phone') return '';
+    for (var i = 0; i < q.pieces.length; i++) {
+      var p = q.pieces[i], n = q.pieces.length > 1 ? ' for piece ' + (i + 1) : '';
+      if (!p.size) return 'Choose a size' + n + '.';
+      if (p.size === 'custom' && !(p.lengthCm && p.widthCm && p.heightCm)) return 'Enter the length, width and height' + n + '.';
+      if (!p.weightKg) return 'Enter the weight' + n + '.';
+    }
+    return '';
+  }
+
+  function showError(msg) { var e = $('#error'); e.textContent = msg; e.hidden = !msg; if (msg) e.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+
+  $('#qf').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var q = readForm();
+    var problem = check(q);
+    if (problem) return showError(problem);
+    showError('');
+    var go = $('#go'); go.disabled = true; go.textContent = 'Getting prices…';
+    api('/quote', q).then(function (r) {
+      renderResult(r);
+      $('#qf').hidden = true;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, function (e) { showError(e.message || 'Something went wrong.'); })
+      .then(function () { go.disabled = false; go.textContent = 'Get prices'; });
+  });
+
+  function renderResult(r) {
+    var s = r.shipment, rt = r.route;
+    var remote = [rt.from.remote ? 'from' : '', rt.to.remote ? 'to' : ''].filter(Boolean);
+    var sum = '<div class="sum"><span><b>' + esc(rt.from.name) + ' → ' + esc(rt.to.name) + '</b></span><span>' + rt.roadKm + ' km by road · zone <b>' + esc(rt.zone.id) + '</b> (' + esc(rt.zone.label.toLowerCase()) + ')</span>'
+      + '<span>' + s.pieces + ' piece' + (s.pieces === 1 ? '' : 's') + ' · <b>' + s.actualKg + ' kg</b>' + (s.chargedBySizeKg ? ' · charged as ' + s.chargedBySizeKg + ' kg by size' : '') + (s.volumeM3 ? ' · ' + s.volumeM3 + ' m³' : '') + '</span>'
+      + (remote.length ? '<span>Remote area' + (remote.length === 2 ? ' both ends' : '') + '</span>' : '') + '<span>Fuel surcharge ' + r.fuelSurchargePct + '%</span></div>';
+    var today = r.today ? '<div class="today">Today\'s chart: <b>' + money(r.today.price) + '</b> · ' + esc(r.today.service) + ', Zone ' + esc(r.today.zone) + ' <span class="small">(weight only; size, door, cover and VAT aren\'t in the chart)</span></div>'
+      : '<div class="today">Today\'s charts have no price for this' + (s.actualKg > 2999 ? ': over 2,999 kg is quoted by hand today' : '') + '.</div>';
+    var cards = r.options.map(function (o) {
+      var lines = o.lines.map(function (l) { return '<tr><td>' + esc(l.label) + '</td><td class="n">' + (l.amount < 0 ? '−' : '') + money(Math.abs(l.amount)) + '</td></tr>'; }).join('');
+      return '<div class="opt' + (o.cheapest ? ' best' : '') + '"><div class="opt-top"><div><span class="opt-name">' + esc(o.name) + '</span>' + (o.cheapest ? '<span class="badge">Cheapest</span>' : '')
+        + '<div class="eta">Arrives ' + esc(o.delivery.label) + '</div><div class="small">' + esc(o.delivery.promise) + '</div>'
+        + (o.vsToday ? '<div class="small">' + pct(o.vsToday.pct) + ' vs today\'s chart, before VAT</div>' : '') + '</div><div class="price">' + money(o.total) + '</div></div>'
+        + '<details><summary>How this price is made</summary><table>' + lines + '<tr><td>Before VAT</td><td class="n">' + money(o.beforeVat) + '</td></tr><tr><td>VAT ' + r.vatPct + '%</td><td class="n">' + money(o.vat) + '</td></tr><tr><td><b>Total</b></td><td class="n"><b>' + money(o.total) + '</b></td></tr></table></details>'
+        + (o.notes.length ? '<div class="small" style="margin-top:6px">' + o.notes.map(esc).join(' · ') + '</div>' : '') + '</div>';
+    }).join('') || '<div class="card">No service can carry this as entered.</div>';
+    var na = r.notAvailable.length ? '<p class="hint">Not offered: ' + r.notAvailable.map(function (u) { return esc(u.name) + ' (' + esc(u.why) + ')'; }).join('; ') + '.</p>' : '';
+    var box = $('#result');
+    box.innerHTML = '<div class="actions"><button type="button" class="btn ghost" id="edit">Change details</button><button type="button" class="btn ghost" id="again">New quote</button></div>'
+      + sum + today + '<p class="hint" style="margin:0 0 10px">' + r.notes.map(esc).join(' ') + '</p>' + cards + na;
+    box.hidden = false;
+    $('#edit').addEventListener('click', function () { $('#qf').hidden = !$('#qf').hidden; if (!$('#qf').hidden) $('#qf').scrollIntoView({ behavior: 'smooth' }); });
+    $('#again').addEventListener('click', function () { location.hash = ''; location.reload(); });
+  }
+
+  // ---- Rate chart ----
+  function th(zones, sub) { return zones.map(function (z) { return '<th class="n">Zone ' + esc(z.id) + (sub ? '<br><span class="small">' + esc(z.label) + '</span>' : '') + '</th>'; }).join(''); }
+  function loadChart() {
+    api('/rates').then(function (d) {
+      var z = d.zones;
+      var parcel = d.services.map(function (s) {
+        return '<h3 class="t">' + esc(s.name) + '</h3><div class="scroll"><table><tr><th>kg</th>' + th(z, true) + '</tr>'
+          + s.rows.map(function (r) { return '<tr><td>' + r.kg + '</td>' + z.map(function (zz) { return '<td class="n">' + money(r.prices[zz.id]) + '</td>'; }).join('') + '</tr>'; }).join('')
+          + '</table></div><p class="hint">Delivery: ' + z.map(function (zz) { var n = s.days[zz.id]; return 'zone ' + zz.id + ' ' + n + ' day' + (n === 1 ? '' : 's'); }).join(', ') + '; remote areas +' + d.remoteExtraDays + '.</p>';
+      }).join('');
+      var special = '<h3 class="t">EMS Pack, cellphones and medicine</h3><div class="scroll"><table><tr><th>Item</th><th class="n">Price, any distance</th><th>Notes</th></tr>'
+        + d.packs.map(function (p) { return '<tr><td>' + esc(p.label) + '</td><td class="n">' + money(p.price) + '</td><td>Prepaid envelope, next working day</td></tr>'; }).join('')
+        + '<tr><td>Cellphone</td><td class="n">' + money(d.phone.price) + '</td><td>Battery inside the phone, at most two a parcel; declare the value for cover</td></tr></table></div>'
+        + (d.medicine ? '<h3 class="t">Medicine priority</h3><div class="scroll"><table><tr><th>kg</th>' + th(z) + '</tr>' + d.medicine.rows.map(function (r) { return '<tr><td>' + r.kg + '</td>' + z.map(function (zz) { return '<td class="n">' + money(r.prices[zz.id]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table></div><p class="hint">Express speed with priority handling, sealed (seal included), labelled in English with the name and contents.</p>' : '');
+      var f = d.freight;
+      var freight = '<h3 class="t">Freight (shared truck), per kg</h3><div class="scroll"><table><tr><th>Total weight</th>' + th(z) + '</tr>'
+        + f.bands.map(function (b) { return '<tr><td>' + b.fromKg.toLocaleString() + '–' + b.toKg.toLocaleString() + ' kg</td>' + z.map(function (zz) { return '<td class="n">$' + b.perKg[zz.id].toFixed(3) + '</td>'; }).join('') + '</tr>'; }).join('')
+        + '</table></div><p class="hint">Before fuel surcharge and VAT. Minimum charge: ' + f.minChargeKg + ' kg. Size counts: 1 m³ = ' + f.kgPerM3 + ' kg.</p>';
+      var v = d.vehicles;
+      var vehicles = '<h3 class="t">Whole vehicle</h3><div class="scroll"><table><tr><th>Vehicle</th><th class="n">Carries</th><th class="n">Running $/km</th><th class="n">Per day</th>' + v.destinations.map(function (n) { return '<th class="n">' + esc(n) + '</th>'; }).join('') + '</tr>'
+        + v.rows.map(function (r) { return '<tr><td>' + esc(r.name) + '</td><td class="n">' + r.payloadKg.toLocaleString() + ' kg · ' + r.volumeM3 + ' m³</td><td class="n">$' + r.runningPerKm.toFixed(2) + '</td><td class="n">$' + r.perDay + '</td>' + r.prices.map(function (p) { return '<td class="n">' + (p.cityOnly ? 'city only' : big(p.price) + (p.atMinimum ? ' <span class="small">min</span>' : '')) + '</td>'; }).join('') + '</tr>'; }).join('')
+        + '</table></div><p class="hint">For loads from ' + v.fromKg.toLocaleString() + ' kg. Priced from running costs: the trip back (' + v.returnPct + '% of the distance on main routes, all of it from remote places), driver days, tolls and a ' + v.marginPct + '% margin, but never less than shared freight charges for the same load ("min"), so a bigger load never costs less than a smaller one. With VAT.</p>';
+      var x = d.extras, fu = d.fuel;
+      var extras = '<h3 class="t">Extra charges (before VAT)</h3><table>'
+        + '<tr><td>Fuel surcharge</td><td class="n">' + d.fuelSurchargePct + '% now: +' + fu.pct_per_step + '% per ' + Math.round(fu.step_usd * 100) + 'c of diesel over $' + fu.base_usd_per_l.toFixed(2) + '</td></tr>'
+        + '<tr><td>Remote area, each end</td><td class="n">$' + x.remote_parcel.flat + ' or $' + x.remote_parcel.per_kg + '/kg, the higher</td></tr>'
+        + '<tr><td>Door collection or delivery</td><td class="n">$' + x.pickup.hub + ' main centres, $' + x.pickup.other + ' elsewhere</td></tr>'
+        + '<tr><td>Oversize or heavy piece</td><td class="n">$' + x.handling_per_piece + ' a piece</td></tr>'
+        + '<tr><td>Fragile · Medicine · Perishable</td><td class="n">$' + x.fragile_per_piece + ' · $' + x.medicine_per_piece + ' · $' + x.perishable_per_piece + ' a piece</td></tr>'
+        + '<tr><td>Cover</td><td class="n">First $' + x.included_cover + ' free, then ' + x.insurance_pct + '% of the value</td></tr>'
+        + '<tr><td>Cash on delivery</td><td class="n">' + x.cod_pct + '% (min $' + x.cod_min + ')</td></tr>'
+        + '<tr><td>Saturday delivery (Express)</td><td class="n">$' + x.saturday + '</td></tr>'
+        + '<tr><td>Account discounts</td><td class="n">' + d.accountDiscounts.filter(function (a) { return a.pct; }).map(function (a) { return esc(a.label.replace('Account: ', '')) + ' ' + a.pct + '%'; }).join(', ') + '</td></tr></table>';
+      $('#tab-chart').innerHTML = '<div class="card">Parcel prices below include today\'s fuel surcharge (' + d.fuelSurchargePct + '%) and VAT (' + d.vatPct + '%), rounded up to the next ' + money(d.roundTo) + ', counter to counter.</div>' + parcel + special + freight + vehicles + extras;
+    }, function (e) { $('#tab-chart').innerHTML = '<div class="err">' + esc(e.message) + '</div>'; loaded.chart = false; });
+  }
+
+  // ---- Today vs proposal ----
+  function loadCompare() {
+    api('/comparison').then(function (d) {
+      var sim = d.simulation;
+      var rows = function (title, list) {
+        return '<h3 class="t">' + esc(title) + '</h3><div class="scroll"><table><tr><th>Group</th><th class="n">Shipments</th><th class="n">Today</th><th class="n">Proposal</th><th class="n">Change</th></tr>'
+          + list.map(function (r) { return '<tr><td>' + esc(r.label) + '</td><td class="n">' + r.count.toLocaleString() + '</td><td class="n">' + big(r.today) + '</td><td class="n">' + big(r.proposal) + '</td><td class="n">' + change(r.proposal, r.today) + '</td></tr>'; }).join('') + '</table></div>';
+      };
+      var scen = '<div class="scroll"><table><tr><th>If senders choose…</th><th class="n">Today</th><th class="n">Proposal</th><th class="n">Change</th><th class="n">Pay 30%+ more</th></tr>'
+        + sim.scenarios.map(function (s) { return '<tr><td>' + esc(s.label) + '</td><td class="n">' + big(s.today) + '</td><td class="n">' + big(s.proposal) + '</td><td class="n">' + change(s.proposal, s.today) + '</td><td class="n">' + s.up30 + '%</td></tr>'; }).join('') + '</table></div>';
+      var ex = '<div class="scroll"><table><tr><th>Shipment</th><th class="n">Road</th><th class="n">Today (zone)</th><th class="n">Standard</th><th class="n">Express</th></tr>'
+        + d.examples.map(function (x) { return '<tr><td>' + esc(x.shipment) + '</td><td class="n">' + x.roadKm + ' km · zone ' + esc(x.zone) + '</td><td class="n">' + (x.today ? money(x.today.price) + ' (' + esc(x.today.zone) + ')' : '—') + '</td>'
+          + (x.freight != null ? '<td class="n" colspan="2">Freight ' + money(x.freight) + '</td>' : '<td class="n">' + (x.standard != null ? money(x.standard) : '—') + '</td><td class="n">' + (x.express != null ? money(x.express) : '—') + '</td>') + '</tr>'; }).join('') + '</table></div>';
+      var vat = d.vatPct, down = Math.round((1 - 100 / (100 + vat)) * 1000) / 10;
+      $('#tab-compare').innerHTML = '<div class="card"><p style="margin:0 0 8px"><b>At least the same money, fairer prices.</b> On a stand-in month of ' + sim.priced.toLocaleString() + ' shipments (60% to or from the main centres, most under 5 kg, some bulky, some medicine and phones), today\'s charts make <b>' + big(sim.today) + '</b> and the proposal <b>' + big(sim.proposal) + '</b> (' + change(sim.proposal, sim.today) + ') when senders split between the speeds. Short trips get cheaper and long ones cost a little more, so the price follows what the trip costs.</p>'
+        + '<p class="hint" style="margin:0 0 6px"><b>One thing to confirm:</b> today\'s charts don\'t say whether their prices include VAT. This comparison assumes they don\'t. If they do, the base prices would need to come down by about ' + down + '% (÷ ' + (1 + vat / 100) + ', one setting).</p>'
+        + '<p class="hint" style="margin:0">Today everyone pays one price whatever the speed; with the proposal they choose, so the month is priced three ways below. Each sender takes the cheapest option at least as fast as they want. Like for like: with fuel surcharge, before VAT and extras.</p></div>'
+        + '<h3 class="t">Revenue, whatever senders choose</h3>' + scen + '<h3 class="t">Examples</h3>' + ex
+        + '<p class="hint">Proposal prices before VAT, with today\'s fuel surcharge. Today Harare → Chinhoyi (127 km) costs more than Harare → Bulawayo (447 km), because Chinhoyi is "Zone B". Distance zones fix that.</p>'
+        + rows('By distance (proposal zones)', sim.byZone) + rows('By weight', sim.byWeight) + rows('By what is sent', sim.byKind) + rows('By today\'s zones', sim.byTodayZone);
+    }, function (e) { $('#tab-compare').innerHTML = '<div class="err">' + esc(e.message) + '</div>'; loaded.compare = false; });
+  }
+
+  // ---- How it works ----
+  function loadHow() {
+    api('/model').then(function (m) {
+      var li = function (items) { return '<ul class="l">' + items.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>'; };
+      var p = m.parcel, z = m.zones, f = m.freight, fu = m.fuel, ch = m.charter;
+      $('#tab-how').innerHTML = '<div class="card"><h3 class="t" style="margin-top:0">What\'s wrong with pricing today</h3>' + li([
+        'Two zones by a list of towns, not by distance: 127 km to Chinhoyi costs more than 447 km to Bulawayo, and Beitbridge costs the same as Norton.',
+        'Weight only: a big, light box (a duvet, a carton of crisps) pays as if it were small, though it fills the van.',
+        'Price jumps between bands, a gap (17 kg) and an overlap (45 kg) in the EMS chart; medicine on the "cost-effective" rate can cost more than EMS.',
+        'EMS and Fast Parcel share one price, so there is no reason to choose the slower service.',
+        'Nothing for door collection, remote places, oversize, cover or cash on delivery, so these are absorbed or charged differently at each counter.',
+        'Fuel is baked into the charts, so every diesel change needs new charts or eats the margin.',
+        'No method for loads over 2,999 kg: each one is quoted by hand.'
+      ]) + '</div><div class="card"><h3 class="t" style="margin-top:0">How the proposal prices, step by step</h3>' + li([
+        '<b>Chargeable weight</b>: the actual weight or the size weight (L×W×H ÷ ' + p.volumetric_divisor + '), whichever is more, rounded up to ' + p.round_kg_to + ' kg; size only counts for pieces of ' + p.volumetric_min_m3 + ' m³ or more, so small items always go by weight. DHL, UPS, FedEx, SF and JD all do this.',
+        '<b>Zone by road distance</b> between the two places (' + z.map(function (x) { return esc(x.id) + ': ' + esc(x.label.toLowerCase()); }).join(', ') + '). Standard in zone 3 keeps today\'s Zone A level.',
+        '<b>Base price</b>: $' + p.first_kg + ' for the first kg, then ' + p.steps.map(function (s) { return '$' + s.per_kg.toFixed(2) + ' a kg to ' + s.up_to + ' kg'; }).join(', ') + ', a smooth curve fitted to today\'s EMS chart. Times the zone (×' + z[0].factor + ' to ×' + z[z.length - 1].factor + ') and the service (' + p.services.map(function (s) { return esc(s.name.split(' (')[0]) + ' ×' + s.factor; }).join(', ') + ').',
+        '<b>What it is</b> matters, as with every courier: a <b>cellphone</b> has one secure price; <b>medicine</b> goes priority at Express speed, sealed and labelled in English; <b>fresh food</b> goes Express only; cash, jewellery and precious stones are refused.',
+        '<b>Fuel surcharge</b> follows the ZERA diesel price: +' + fu.pct_per_step + '% for every ' + Math.round(fu.step_usd * 100) + 'c over $' + fu.base_usd_per_l.toFixed(2) + '. Change one number when fuel moves; the charts stay.',
+        '<b>Extras</b>, each a clear line: remote area, door collection and delivery, oversize, fragile, medicine, perishable, cover, cash on delivery, Saturday.',
+        '<b>Freight</b> (' + f.min_kg + '–' + f.max_kg.toLocaleString() + ' kg, or anything parcels can\'t take, like a long pipe): a rate per kg that falls as loads grow, by zone; minimum charge ' + f.min_charge_kg + ' kg, so there is no jump where parcels end.',
+        '<b>Whole vehicle</b>: the smallest vehicle that fits, priced from what it costs to run (fuel, wear, driver days, tolls and the trip back) plus ' + ch.margin_pct + '%, but never less than shared freight would charge for the same load. Offered from ' + Number(ch.min_kg).toLocaleString() + ' kg, or when freight can\'t take the load.',
+        '<b>Account discounts</b> for regular senders, then <b>VAT ' + m.vat_pct + '%</b>, then rounded up to the next ' + money(m.round_to) + ' for cash change.',
+        '<b>Delivery date</b> for each option: working days by service, zone and remote area, skipping weekends and public holidays.'
+      ]) + '</div><div class="card"><h3 class="t" style="margin-top:0">What we assumed, to be replaced with ZimPost\'s own figures</h3>' + li([
+        'Post offices: the outlets marked open in 2025 in a public outlet checklist built from ZimPost\'s own listings; ZimPost\'s current list replaces it.',
+        'Road distances: straight line × 1.22, checked against Harare–Bulawayo and Harare–Mutare. A real distance table can replace it.',
+        'Vehicles: payload, space, fuel use and running costs typical for each class; diesel $' + fu.diesel_usd_per_l.toFixed(2) + ' (ZERA).',
+        'VAT ' + m.vat_pct + '% (Finance Act 2025, from 1 Jan 2026). Today\'s charts don\'t say whether they include VAT.',
+        'The stand-in month: until ZimPost shares its shipments, the comparison uses a fixed made-up mix.'
+      ]) + '</div>';
+    }, function (e) { $('#tab-how').innerHTML = '<div class="err">' + esc(e.message) + '</div>'; loaded.how = false; });
+  }
+
+  // ---- Start ----
+  Promise.all([api('/options'), api('/places')]).then(function (r) {
+    buildForm(r[0], r[1]);
+    var h = location.hash.slice(1);
+    if (['chart', 'compare', 'how'].indexOf(h) >= 0) show(h);
+  }, function (e) { showError(e.message || 'Could not load the calculator.'); $('#qf').hidden = true; });
+})();
+</script>
+</body>
+</html>
