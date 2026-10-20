@@ -1,0 +1,12 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__github__merge_pull_request",
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/scripts/merge-gate.mjs\"", "timeout": 30 }
+        ]
+      }
+    ]
+  }
+}
