@@ -3,11 +3,33 @@ import "@/big-type.css";
 import { LogoMark } from "@/components/logo";
 
 const CONTACT_URL = "https://mejesi.com/api/hovina-contact";
+const CONFIG_URL = "https://mejesi.com/api/hovina-contact/config";
+
+// Bot protection: the server hands out a signed "form opened at" stamp and, once Cloudflare Turnstile is set up, a site key.
+declare global { interface Window { turnstile?: { render: (el: HTMLElement, o: Record<string, unknown>) => string; reset: (id?: string) => void } } }
 
 function ContactForm() {
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState("");
   const box = useRef<HTMLDivElement>(null);
+  const [stamp, setStamp] = useState("");
+  const [siteKey, setSiteKey] = useState("");
+  const [token, setToken] = useState("");
+  const widget = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch(CONFIG_URL).then((r) => r.json()).then((c) => { setStamp(c.stamp ?? ""); setSiteKey(c.turnstileSiteKey ?? ""); }).catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (!siteKey || !widget.current) return;
+    const el = widget.current;
+    const draw = () => window.turnstile?.render(el, { sitekey: siteKey, callback: (t: string) => setToken(t), "expired-callback": () => setToken("") });
+    if (window.turnstile) { draw(); return; }
+    const sc = document.createElement("script");
+    sc.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    sc.async = true; sc.onload = draw; document.head.appendChild(sc);
+  }, [siteKey]);
 
   // The form is replaced by the confirmation, so bring that into view.
   useEffect(() => {
@@ -23,7 +45,7 @@ function ContactForm() {
       const res = await fetch(CONTACT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, ts: stamp, "cf-turnstile-response": token }),
       });
       const out = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(out.error || "Something went wrong.");
@@ -55,8 +77,9 @@ function ContactForm() {
       <label className="wide">WhatsApp number (optional)<input name="whatsapp" maxLength={40} autoComplete="tel" placeholder="+263 77 000 0000" /></label>
       <label className="wide">What do you want to build?<textarea name="message" required rows={5} maxLength={4000} /></label>
       <div style={{ position: "absolute", left: "-9999px" }} aria-hidden="true"><input name="website" tabIndex={-1} autoComplete="off" /></div>
+      {siteKey && <div className="wide" ref={widget} />}
       {state === "error" && <p className="b-form-err wide" role="alert">{error} You can also email dev@hovina.co.zw.</p>}
-      <button className="b-pill lime wide" type="submit" disabled={state === "sending"}>{state === "sending" ? (<><span className="b-spin" aria-hidden="true" />Sending…</>) : "Send message"}</button>
+      <button className="b-pill lime wide" type="submit" disabled={state === "sending" || (!!siteKey && !token)}>{state === "sending" ? (<><span className="b-spin" aria-hidden="true" />Sending…</>) : "Send message"}</button>
     </form>
   );
 }
