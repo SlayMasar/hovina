@@ -24,7 +24,7 @@ function ContactForm() {
   useEffect(() => {
     if (!siteKey || !widget.current) return;
     const el = widget.current;
-    const draw = () => window.turnstile?.render(el, { sitekey: siteKey, callback: (t: string) => setToken(t), "expired-callback": () => setToken("") });
+    const draw = () => window.turnstile?.render(el, { sitekey: siteKey, theme: "dark", size: "flexible", appearance: "interaction-only", callback: (t: string) => setToken(t), "expired-callback": () => setToken("") });
     if (window.turnstile) { draw(); return; }
     const sc = document.createElement("script");
     sc.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
@@ -77,7 +77,7 @@ function ContactForm() {
       <label className="wide">WhatsApp number (optional)<input name="whatsapp" maxLength={40} autoComplete="tel" placeholder="+263 77 000 0000" /></label>
       <label className="wide">What do you want to build?<textarea name="message" required rows={5} maxLength={4000} /></label>
       <div style={{ position: "absolute", left: "-9999px" }} aria-hidden="true"><input name="website" tabIndex={-1} autoComplete="off" /></div>
-      {siteKey && <div className="wide" ref={widget} />}
+      {siteKey && <div className="wide" ref={widget} style={{ borderRadius: 14, overflow: "hidden" }} />}
       {state === "error" && <p className="b-form-err wide" role="alert">{error} You can also email dev@hovina.co.zw.</p>}
       <button className="b-pill lime wide" type="submit" disabled={state === "sending" || (!!siteKey && !token)}>{state === "sending" ? (<><span className="b-spin" aria-hidden="true" />Sending…</>) : "Send message"}</button>
     </form>
