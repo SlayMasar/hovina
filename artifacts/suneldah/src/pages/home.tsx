@@ -161,7 +161,16 @@ export default function Home() {
               </div>
             </article>
           </div>
-          <div className="b-ph"><div><span className="b-m">Case study · coming</span><br /><b>[Client name: pending approval]</b></div><span className="b-m">Reserved for the next project we can show</span></div>
+          <div className="b-sec-h" style={{ marginTop: '90px' }}><h2 className="b-d">Client<br />work</h2><span className="b-m">Built for businesses we work with</span></div>
+          <article className="b-card c">
+            <div>
+              <span className="b-m b-chip">Web portal · Botswana</span>
+              <h3>Mepi Building Construction</h3>
+              <p>They climb the towers and pull the fibre that keeps Botswana online. Since 2007, if your phone has signal in Gaborone, there’s a fair chance Mepi’s crew bolted it up there.</p>
+              <p style={{ marginTop: '22px' }}><a className="b-pill mepi" href="https://mepi.slaymasar.workers.dev" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a></p>
+            </div>
+            <div className="b-shots"><img src="/work/mepi-devices.webp" alt="Mepi web portal on a laptop and a phone" width="1400" height="788" loading="lazy" /></div>
+          </article>
         </section>
     
         <section className="b-sec" id="process">
