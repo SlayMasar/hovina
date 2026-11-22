@@ -131,3 +131,12 @@
 .b-pill.mepi{background:linear-gradient(90deg,#2F55F0,#F5761A);color:#fff!important}
 .b-shots img{display:block;width:100%;height:auto;border-radius:20px}
 @media(max-width:1020px){.b-card.c{grid-template-columns:1fr}}
+
+/* Client work: a sideways-scrolling row; the next card peeks in so people know to swipe */
+.b-clients{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 2px;padding-bottom:18px;scrollbar-width:thin;overscroll-behavior-x:contain}
+.b-clients>.b-card{flex:0 0 min(92%,1120px);scroll-snap-align:start}
+.b-clients::-webkit-scrollbar{height:6px}.b-clients::-webkit-scrollbar-thumb{background:rgba(10,42,47,.35);border-radius:9px}
+.b-card.c.at{background:#1B2219;color:#F4EFE6}
+.b-card.c.at .b-chip{border-color:#D9B27A;color:#D9B27A}
+.b-pill.atiya{background:linear-gradient(90deg,#E2C08D,#C9985C);color:#1B2219!important}
+@media(max-width:640px){.b-clients{gap:14px}.b-clients>.b-card{flex-basis:88%}}
