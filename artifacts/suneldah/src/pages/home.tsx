@@ -164,9 +164,9 @@ export default function Home() {
           <div className="b-sec-h" style={{ marginTop: '90px' }}><h2 className="b-d">Client<br />work</h2><span className="b-m">Built for businesses we work with</span></div>
           <article className="b-card c">
             <div>
-              <span className="b-m b-chip">Website · Botswana</span>
+              <span className="b-m b-chip">Web portal · Botswana</span>
               <h3>Mepi Building Construction</h3>
-              <p>A telecoms and construction contractor in Gaborone. We built their site with a live turning globe, their project record and a contact form that lands enquiries straight in their inbox as a branded email.</p>
+              <p>A telecoms and construction contractor in Gaborone. We built their web portal with a live turning globe, their project record and a contact form that lands enquiries straight in their inbox as a branded email.</p>
               <p style={{ marginTop: '22px' }}><a className="b-pill mepi" href="https://mepi.slaymasar.workers.dev" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a></p>
             </div>
             <div className="b-shots" aria-hidden="true">
