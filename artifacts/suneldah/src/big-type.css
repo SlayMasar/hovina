@@ -124,3 +124,13 @@
 .b-logo{display:inline-flex;align-items:center}
 .b-mark{width:52px;height:auto;margin-right:10px;flex:none}
 @media(max-width:640px){.b-mark{width:42px;margin-right:8px}}
+
+/* Client work: Mepi card, in the client's own colours (charcoal with their blue-to-orange) */
+.b-card.c{background:#15171C;color:#F6F7F9;display:grid;grid-template-columns:1fr 1.25fr;align-items:center;min-height:0}
+.b-card.c .b-chip{border-color:#F5761A;color:#F5761A}
+.b-pill.mepi{background:linear-gradient(90deg,#2F55F0,#F5761A);color:#fff!important}
+.b-shots{position:relative;padding:10px 40px 30px 0}
+.b-shots img{display:block;height:auto;border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.b-shots .dk{width:100%;border:1px solid rgba(255,255,255,.12)}
+.b-shots .ph{position:absolute;right:0;bottom:0;width:30%;border-radius:22px;border:4px solid #0d0e12}
+@media(max-width:1020px){.b-card.c{grid-template-columns:1fr}.b-shots{padding:0 26px 22px 0}}
