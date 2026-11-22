@@ -169,10 +169,7 @@ export default function Home() {
               <p>They climb the towers and pull the fibre that keeps Botswana online. Since 2007, if your phone has signal in Gaborone, there’s a fair chance Mepi’s crew bolted it up there.</p>
               <p style={{ marginTop: '22px' }}><a className="b-pill mepi" href="https://mepi.slaymasar.workers.dev" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a></p>
             </div>
-            <div className="b-shots" aria-hidden="true">
-              <img className="dk" src="/work/mepi-desktop.webp" alt="" width="960" height="600" loading="lazy" />
-              <div className="iph"><span className="isl" /><img src="/work/mepi-phone.webp" alt="" width="360" height="720" loading="lazy" /></div>
-            </div>
+            <div className="b-shots"><img src="/work/mepi-devices.webp" alt="Mepi web portal on a laptop and a phone" width="1400" height="788" loading="lazy" /></div>
           </article>
         </section>
     
