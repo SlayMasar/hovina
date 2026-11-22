@@ -178,7 +178,7 @@ export default function Home() {
                 <span className="b-m b-chip">Web portal · Zimbabwe</span>
                 <h3>Atiya Mobile Massage</h3>
                 <p>Premium massage that comes to you. Their portal books, takes payment and runs the business side.</p>
-              <ul className="b-feats"><li>Online booking calendar</li><li>EcoCash payments</li><li>Deposits or pay in full</li><li>Gift vouchers on WhatsApp</li><li>Offers &amp; promotions manager</li><li>Admin dashboard</li><li>WhatsApp booking</li></ul>
+              <ul className="b-feats"><li>Online booking system</li><li>EcoCash integration</li><li>Gift cards &amp; vouchers system</li><li>Offers &amp; promotions manager</li><li>Admin dashboard</li><li>WhatsApp integration</li></ul>
                 <p style={{ marginTop: '22px' }}><a className="b-pill atiya" href="https://atiya.co.zw" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a></p>
               </div>
               <div className="b-shots"><img src="/work/atiya-devices.webp" alt="Atiya web portal on a laptop and a phone" width="1400" height="788" loading="lazy" /></div>
