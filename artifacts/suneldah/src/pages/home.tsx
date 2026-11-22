@@ -168,6 +168,7 @@ export default function Home() {
                 <span className="b-m b-chip">Web portal · Botswana</span>
                 <h3>Mepi Building Construction</h3>
                 <p>They climb the towers and pull the fibre that keeps Botswana online. Since 2007, if your phone has signal in Gaborone, there’s a fair chance Mepi’s crew bolted it up there.</p>
+              <ul className="b-feats"><li>Enquiry system</li><li>Branded email alerts</li><li>Project portfolio</li><li>Live 3D network globe</li><li>Custom domain</li><li>Mobile-first design</li></ul>
                 <p style={{ marginTop: '22px' }}><a className="b-pill mepi" href="https://mepi.slaymasar.workers.dev" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a></p>
               </div>
               <div className="b-shots"><img src="/work/mepi-devices.webp" alt="Mepi web portal on a laptop and a phone" width="1400" height="788" loading="lazy" /></div>
@@ -176,7 +177,8 @@ export default function Home() {
               <div>
                 <span className="b-m b-chip">Web portal · Zimbabwe</span>
                 <h3>Atiya Mobile Massage</h3>
-                <p>Clients pick a treatment and a time, say where to come, and lock it in with an EcoCash deposit, all on their phone. Friends can buy gift vouchers that arrive on WhatsApp, and Atiya runs its own seasonal offers from a simple admin page.</p>
+                <p>Premium massage that comes to you. Their portal books, takes payment and runs the business side.</p>
+              <ul className="b-feats"><li>Online booking calendar</li><li>EcoCash payments</li><li>Deposits or pay in full</li><li>Gift vouchers on WhatsApp</li><li>Offers &amp; promotions manager</li><li>Admin dashboard</li><li>WhatsApp booking</li></ul>
                 <p style={{ marginTop: '22px' }}><a className="b-pill atiya" href="https://atiya.co.zw" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a></p>
               </div>
               <div className="b-shots"><img src="/work/atiya-devices.webp" alt="Atiya web portal on a laptop and a phone" width="1400" height="788" loading="lazy" /></div>
