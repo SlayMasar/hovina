@@ -158,3 +158,20 @@
 .b-card.c .b-shots{position:absolute;right:-6px;bottom:-14px;width:60%;transform:rotate(-2.5deg);z-index:1}
 .b-card.c .b-shots img{box-shadow:0 22px 50px rgba(0,0,0,.45)}
 @media(max-width:640px){.b-card.c{height:auto;min-height:0;padding-bottom:0}.b-card.c .b-shots{position:relative;right:auto;bottom:auto;width:calc(100% + 26px);margin:22px -26px -8px 0;transform:none}.b-card.c h3{font-size:2.1rem}}
+
+/* phones: tighter text and smaller chips so the client card is close to the product card's height */
+@media(max-width:640px){
+ .b-card.c{padding:24px 22px 0}
+ .b-card.c h3{font-size:1.75rem;margin:10px 0 8px;line-height:1}
+ .b-card.c p{font-size:13.5px;line-height:1.4}
+ .b-card.c .b-chip{padding:4px 10px;font-size:11px}
+ .b-card.c .b-feats{gap:5px;margin-top:12px}
+ .b-card.c .b-feats li{font-size:10.5px;padding:4px 8px 4px 17px}
+ .b-card.c .b-feats li::before{left:7px;width:5px;height:5px;margin-top:-2.5px}
+ .b-card.c .b-pill{padding:9px 16px;font-size:13.5px}
+ .b-card.c p[style]{margin-top:14px!important}
+ .b-card.c .b-shots{margin:14px -22px 0 -22px;width:calc(100% + 44px)}
+ .b-card.c .b-shots img{border-radius:0}
+ .b-card.c{display:flex;flex-direction:column}
+ .b-card.c .b-shots{margin-top:auto;padding-top:14px}
+}
