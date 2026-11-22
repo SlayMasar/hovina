@@ -132,5 +132,11 @@
 .b-shots{position:relative;padding:10px 40px 30px 0}
 .b-shots img{display:block;height:auto;border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
 .b-shots .dk{width:100%;border:1px solid rgba(255,255,255,.12)}
-.b-shots .ph{position:absolute;right:0;bottom:0;width:30%;border-radius:22px;box-shadow:0 0 0 1px rgba(255,255,255,.14),0 24px 60px rgba(0,0,0,.55)}
+.b-shots .iph{position:absolute;right:0;bottom:0;width:30%;padding:5px;border-radius:30px;background:linear-gradient(145deg,#3a3d44,#16181c 45%,#2b2e34);
+ box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),0 0 0 1px rgba(0,0,0,.6),0 26px 60px rgba(0,0,0,.55)}
+.b-shots .iph::before,.b-shots .iph::after{content:'';position:absolute;width:3px;border-radius:2px;background:#2b2e34}
+.b-shots .iph::before{left:-3px;top:22%;height:9%;box-shadow:0 30px 0 #2b2e34}
+.b-shots .iph::after{right:-3px;top:28%;height:14%}
+.b-shots .iph img{width:100%;border-radius:25px;box-shadow:none;display:block}
+.b-shots .iph .isl{position:absolute;left:50%;top:11px;transform:translateX(-50%);width:28%;height:4.2%;min-height:10px;border-radius:99px;background:#000;z-index:2}
 @media(max-width:1020px){.b-card.c{grid-template-columns:1fr}.b-shots{padding:0 26px 22px 0}}

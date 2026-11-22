@@ -171,7 +171,7 @@ export default function Home() {
             </div>
             <div className="b-shots" aria-hidden="true">
               <img className="dk" src="/work/mepi-desktop.webp" alt="" width="960" height="600" loading="lazy" />
-              <img className="ph" src="/work/mepi-phone.webp" alt="" width="360" height="720" loading="lazy" />
+              <div className="iph"><span className="isl" /><img src="/work/mepi-phone.webp" alt="" width="360" height="720" loading="lazy" /></div>
             </div>
           </article>
         </section>
