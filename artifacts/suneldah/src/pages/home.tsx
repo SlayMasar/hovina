@@ -161,16 +161,29 @@ export default function Home() {
               </div>
             </article>
           </div>
-          <div className="b-sec-h" style={{ marginTop: '90px' }}><h2 className="b-d">Client<br />work</h2><span className="b-m">Built for businesses we work with</span></div>
+          <div className="b-sec-h" style={{ marginTop: '90px' }}><h2 className="b-d">Client<br />work</h2><span className="b-m">Built for businesses we work with · swipe&nbsp;→</span></div>
+          <div className="b-clients" tabIndex={0} aria-label="Client work, scroll sideways">
           <article className="b-card c">
-            <div>
-              <span className="b-m b-chip">Web portal · Botswana</span>
-              <h3>Mepi Building Construction</h3>
-              <p>They climb the towers and pull the fibre that keeps Botswana online. Since 2007, if your phone has signal in Gaborone, there’s a fair chance Mepi’s crew bolted it up there.</p>
-              <p style={{ marginTop: '22px' }}><a className="b-pill mepi" href="https://mepi.slaymasar.workers.dev" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a></p>
-            </div>
-            <div className="b-shots"><img src="/work/mepi-devices.webp" alt="Mepi web portal on a laptop and a phone" width="1400" height="788" loading="lazy" /></div>
-          </article>
+              <div>
+                <span className="b-m b-chip">Web portal · Botswana</span>
+                <h3>Mepi Building Construction</h3>
+                <p>They climb the towers and pull the fibre that keeps Botswana online. Since 2007, if your phone has signal in Gaborone, there’s a fair chance Mepi’s crew bolted it up there.</p>
+              <ul className="b-feats"><li>Enquiry system</li><li>Branded email alerts</li><li>Project portfolio</li><li>Live 3D network globe</li><li>Custom domain</li><li>Mobile-first design</li></ul>
+                <p style={{ marginTop: '22px' }}><a className="b-pill mepi" href="https://mepi.slaymasar.workers.dev" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a></p>
+              </div>
+              <div className="b-shots"><img src="/work/mepi-devices.webp" alt="Mepi web portal on a laptop and a phone" width="1400" height="788" loading="lazy" /></div>
+            </article>
+            <article className="b-card c at">
+              <div>
+                <span className="b-m b-chip">Web portal · Zimbabwe</span>
+                <h3>Atiya Mobile Massage</h3>
+                <p>Premium massage that comes to you. Their portal books, takes payment and runs the business side.</p>
+              <ul className="b-feats"><li>Online booking system</li><li>EcoCash integration</li><li>Gift cards &amp; vouchers system</li><li>Offers &amp; promotions manager</li><li>Admin dashboard</li><li>WhatsApp integration</li></ul>
+                <p style={{ marginTop: '22px' }}><a className="b-pill atiya" href="https://atiya.co.zw" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a></p>
+              </div>
+              <div className="b-shots"><img src="/work/atiya-devices.webp" alt="Atiya web portal on a laptop and a phone" width="1400" height="788" loading="lazy" /></div>
+            </article>
+          </div>
         </section>
     
         <section className="b-sec" id="process">
