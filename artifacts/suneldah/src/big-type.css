@@ -126,23 +126,52 @@
 @media(max-width:640px){.b-mark{width:42px;margin-right:8px}}
 
 /* Client work: Mepi card, in the client's own colours (charcoal with their blue-to-orange) */
-.b-card.c{background:#15171C;color:#F6F7F9;display:grid;grid-template-columns:1fr 1.25fr;align-items:center;min-height:0}
+.b-card.c{background:#15171C;color:#F6F7F9;display:block;min-height:560px;height:560px}
 .b-card.c .b-chip{border-color:#F5761A;color:#F5761A}
 .b-pill.mepi{background:linear-gradient(90deg,#2F55F0,#F5761A);color:#fff!important}
 .b-shots img{display:block;width:100%;height:auto;border-radius:20px}
-@media(max-width:1020px){.b-card.c{grid-template-columns:1fr}}
 
 /* Client work: a sideways-scrolling row; the next card peeks in so people know to swipe */
 .b-clients{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 2px;padding-bottom:18px;scrollbar-width:thin;overscroll-behavior-x:contain}
-.b-clients>.b-card{flex:0 0 min(92%,1120px);scroll-snap-align:start}
+.b-clients>.b-card{flex:0 0 calc(50% - 12px);scroll-snap-align:start}
 .b-clients::-webkit-scrollbar{height:6px}.b-clients::-webkit-scrollbar-thumb{background:rgba(10,42,47,.35);border-radius:9px}
 .b-card.c.at{background:#1B2219;color:#F4EFE6}
 .b-card.c.at .b-chip{border-color:#D9B27A;color:#D9B27A}
 .b-pill.atiya{background:linear-gradient(90deg,#E2C08D,#C9985C);color:#1B2219!important}
-@media(max-width:640px){.b-clients{gap:14px}.b-clients>.b-card{flex-basis:88%}}
+@media(max-width:1020px){.b-clients>.b-card{flex-basis:88%}}
+@media(max-width:640px){.b-clients{gap:14px}}
 
 .b-feats{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px;max-width:34rem}
 .b-feats li{font-size:13.5px;font-weight:600;padding:7px 12px 7px 26px;border-radius:99px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);position:relative}
 .b-feats li::before{content:'';position:absolute;left:11px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:#F5761A}
 .b-card.c.at .b-feats li::before{background:#D9B27A}
 @media(max-width:640px){.b-feats{gap:6px;margin-top:16px}.b-feats li{font-size:11.5px;padding:5px 9px 5px 20px}.b-feats li::before{left:8px;width:6px;height:6px;margin-top:-3px}}
+
+/* Client cards are the same size as the product cards (628 x 560): compact text on top, the mockup tilted in the bottom corner */
+.b-card.c>div:first-child{position:relative;z-index:2;max-width:100%}
+.b-card.c h3{font-size:clamp(2rem,3.4vw,3rem);margin:12px 0 10px}
+.b-card.c p{font-size:15px;max-width:30rem}
+.b-card.c .b-feats{margin-top:14px;gap:6px;max-width:100%}
+.b-card.c .b-feats li{font-size:12px;padding:5px 10px 5px 21px}
+.b-card.c .b-feats li::before{left:9px;width:6px;height:6px;margin-top:-3px}
+.b-card.c .b-pill{padding:11px 20px;font-size:15px}
+.b-card.c .b-shots{position:absolute;right:-6px;bottom:-14px;width:60%;transform:rotate(-2.5deg);z-index:1}
+.b-card.c .b-shots img{box-shadow:0 22px 50px rgba(0,0,0,.45)}
+@media(max-width:640px){.b-card.c{height:auto;min-height:0;padding-bottom:0}.b-card.c .b-shots{position:relative;right:auto;bottom:auto;width:calc(100% + 26px);margin:22px -26px -8px 0;transform:none}.b-card.c h3{font-size:2.1rem}}
+
+/* phones: tighter text and smaller chips so the client card is close to the product card's height */
+@media(max-width:640px){
+ .b-card.c{padding:24px 22px 0}
+ .b-card.c h3{font-size:1.75rem;margin:10px 0 8px;line-height:1}
+ .b-card.c p{font-size:13.5px;line-height:1.4}
+ .b-card.c .b-chip{padding:4px 10px;font-size:11px}
+ .b-card.c .b-feats{gap:5px;margin-top:12px}
+ .b-card.c .b-feats li{font-size:10.5px;padding:4px 8px 4px 17px}
+ .b-card.c .b-feats li::before{left:7px;width:5px;height:5px;margin-top:-2.5px}
+ .b-card.c .b-pill{padding:9px 16px;font-size:13.5px}
+ .b-card.c p[style]{margin-top:14px!important}
+ .b-card.c .b-shots{margin:14px -22px 0 -22px;width:calc(100% + 44px)}
+ .b-card.c .b-shots img{border-radius:0}
+ .b-card.c{display:flex;flex-direction:column}
+ .b-card.c .b-shots{margin-top:auto;padding-top:14px}
+}
