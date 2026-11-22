@@ -166,7 +166,7 @@ export default function Home() {
             <div>
               <span className="b-m b-chip">Web portal · Botswana</span>
               <h3>Mepi Building Construction</h3>
-              <p>A telecoms and construction contractor in Gaborone. We built their web portal with a live turning globe, their project record and a contact form that lands enquiries straight in their inbox as a branded email.</p>
+              <p>Telecoms towers, fibre and civil works across Botswana and Angola. Their web portal puts that track record in front of operators and partners, and turns every enquiry into a lead in their inbox within seconds.</p>
               <p style={{ marginTop: '22px' }}><a className="b-pill mepi" href="https://mepi.slaymasar.workers.dev" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a></p>
             </div>
             <div className="b-shots" aria-hidden="true">
