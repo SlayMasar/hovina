@@ -176,7 +176,7 @@ export default function Home() {
               <div>
                 <span className="b-m b-chip">Web portal · Zimbabwe</span>
                 <h3>Atiya Mobile Massage</h3>
-                <p>They bring the spa to your door. Swedish, hot stone, deep tissue and reflexology in your own living room, booked with one WhatsApp message, gift vouchers included.</p>
+                <p>Clients pick a treatment and a time, say where to come, and lock it in with an EcoCash deposit, all on their phone. Friends can buy gift vouchers that arrive on WhatsApp, and Atiya runs its own seasonal offers from a simple admin page.</p>
                 <p style={{ marginTop: '22px' }}><a className="b-pill atiya" href="https://atiya.co.zw" target="_blank" rel="noopener">Visit the site <span aria-hidden="true">↗</span></a></p>
               </div>
               <div className="b-shots"><img src="/work/atiya-devices.webp" alt="Atiya web portal on a laptop and a phone" width="1400" height="788" loading="lazy" /></div>
